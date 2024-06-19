@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:todo/src/core/theme/color_theme.dart';
-import 'package:todo/src/core/theme/text_theme.dart';
+import 'package:todo/src/core/theme/theme.dart';
 
-/// Custom Cupertino Theme Data
+/// Custom Cupertino Theme Data.
 class AppTheme extends CupertinoThemeData {
-  /// Creates AppTheme's instance for both themes
+  /// Creates AppTheme's instance for both themes.
   factory AppTheme() {
     return AppTheme._(
       primaryColor: AppColors.back.secondary,
