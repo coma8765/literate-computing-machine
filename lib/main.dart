@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/pages/home_page.dart';
 
 void main() {
-  debugPaintSizeEnabled = false;
-
   runApp(const MyApp());
 }
 
