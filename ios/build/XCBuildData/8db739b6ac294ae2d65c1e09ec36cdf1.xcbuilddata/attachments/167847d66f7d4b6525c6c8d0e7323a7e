@@ -1,0 +1,28 @@
+{
+  "" : {
+    "diagnostics" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/Runner-master.dia",
+    "emit-module-dependencies" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/Runner-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/Runner-master-emit-module.dia",
+    "swift-dependencies" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/Runner-master.swiftdeps"
+  },
+  "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/coma8765/dev/02-mobile-school-app/ios/Runner/AppDelegate.swift" : {
+    "const-values" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.swiftconstvalues",
+    "dependencies" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.d",
+    "diagnostics" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.dia",
+    "index-unit-output-path" : "/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.o",
+    "llvm-bc" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.o",
+    "swift-dependencies" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate.swiftdeps",
+    "swiftmodule" : "/Users/coma8765/dev/02-mobile-school-app/ios/build/Runner.build/Debug-iphoneos/Runner.build/Objects-normal/arm64/AppDelegate~partial.swiftmodule"
+  }
+}
