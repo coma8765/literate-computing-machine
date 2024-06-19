@@ -28,15 +28,20 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cupertino_icons: ^1.0.8
+
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.10+1
+  pixel_perfect: ^1.1.3
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
 
 dev_dependencies:
+  flutter_lints: ^4.0.0
+
   flutter_test:
     sdk: flutter
 
@@ -45,7 +50,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  very_good_analysis: ^5.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -88,3 +93,19 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: SFProDisplay
+      fonts:
+        - asset: fonts/SFPRODISPLAYREGULAR.OTF
+        - asset: fonts/SFPRODISPLAYBOLD.OTF
+          weight: 700
+
+    - family: SFProText
+      fonts:
+        - asset: fonts/SFProText-Regular.ttf
+        - asset: fonts/SFProText-Semibold.ttf
+          weight: 600
+
+  assets:
+    - assets/design/
+    - assets/svg/

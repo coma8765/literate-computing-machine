@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:todo/src/core/theme/color_theme.dart';
+import 'package:todo/src/core/theme/theme.dart';
 
 const _kNavBarBorderWidth = 0.5;
 const _kNavBarHeaderHeight = 44.0;
