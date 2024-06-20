@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/presentation/widgets/list_tiles/slaidable_list_tile.dart';
+import 'package:todo/src/domain/domain.dart';
+import 'package:todo/src/domain/entities/fake/todo_fake.dart';
 import 'package:todo/src/presentation/widgets/widgets.dart';
 
 const _kPageTitle = 'Мои дела';
@@ -21,6 +23,8 @@ const _kTODOSpace = 5.0;
 const _kTODOBorderRadius = Radius.circular(16.0);
 const _kTODODividerMargin = 52.0;
 const _kTODOBottomPadding = 78.0;
+
+final _todos = TODOFactory().generateFakeList(length: 10);
 
 /// An Home Page of Application
 class HomePage extends StatelessWidget {
@@ -91,13 +95,40 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTODOListTile(
-    BuildContext context, {
-    required String title,
-    Widget? subtitle,
-  }) {
+  Widget _buildTODOListTile(BuildContext context, TODO todo) {
+    final subtitleColor = AppColors.label.tertiary.resolveFrom(context);
+    final subtitleStyle = AppTextStyles.subhead.copyWith(
+      color: subtitleColor,
+    );
+
+    Widget? subtitle;
+
+    if (todo.deadline != null) {
+      final deadlineText = DateFormat('d MMMM', 'ru').format(todo.deadline!);
+
+      subtitle = RichText(
+        text: TextSpan(
+          children: [
+            WidgetSpan(
+              child: Icon(
+                CupertinoIcons.calendar,
+                size: subtitleStyle.fontSize,
+                color: subtitleColor,
+              ),
+              alignment: PlaceholderAlignment.middle,
+            ),
+            const TextSpan(text: ' '),
+            TextSpan(
+              text: deadlineText,
+              style: subtitleStyle,
+            ),
+          ],
+        ),
+      );
+    }
+
     return CustomSlaidableListTile(
-      title: Text(title),
+      title: Text(todo.title),
       subtitle: subtitle,
       leading: const RoundedCheckbox(),
       trailing: const CustomChevron(),
@@ -113,41 +144,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildRows(BuildContext context) {
-    final subtitleColor = AppColors.label.tertiary.resolveFrom(context);
-    final subtitleStyle = AppTextStyles.subhead.copyWith(
-      color: subtitleColor,
-    );
-
-    return <Widget>[
-      _buildTODOListTile(context, title: 'Купить сыр'),
-      _buildTODOListTile(
-        context,
-        title: 'Задание',
-        subtitle: RichText(
-          text: TextSpan(
-            children: [
-              WidgetSpan(
-                child: Icon(
-                  CupertinoIcons.calendar,
-                  size: subtitleStyle.fontSize,
-                  color: subtitleColor,
-                ),
-                alignment: PlaceholderAlignment.middle,
-              ),
-              const TextSpan(text: ' '),
-              TextSpan(
-                text: '14 июня',
-                style: subtitleStyle,
-              ),
-            ],
-          ),
-        ),
-      ),
-      _buildTODOListTile(context, title: 'Сделать пиццу'),
-    ];
-  }
-
   Widget _buildTODOSection(BuildContext context) {
     final backgroundColor = AppColors.back.secondary.resolveFrom(context);
     final separatorColor = AppColors.support.separator.resolveFrom(context);
@@ -156,11 +152,7 @@ class HomePage extends StatelessWidget {
         MediaQuery.of(context).padding.bottom + _kTODOBottomPadding;
 
     final rows = [
-      ..._buildRows(context),
-      ..._buildRows(context),
-      ..._buildRows(context),
-      ..._buildRows(context),
-      ..._buildRows(context),
+      ..._todos.map((todo) => _buildTODOListTile(context, todo)),
       _buildTODOCreate(context),
     ];
 

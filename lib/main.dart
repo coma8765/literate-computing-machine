@@ -1,10 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/pages/home_page.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('ru', '');
+
   runApp(const MyApp());
 }
+
+const _defaultLocale = Locale('ru');
+const _supportedLocales = [
+  Locale('ru'),
+  Locale('en'),
+];
 
 /// An application.
 class MyApp extends StatelessWidget {
@@ -15,10 +24,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'TODO',
-      color: CupertinoColors.black,
+      color: AppTheme().scaffoldBackgroundColor,
       theme: AppTheme(),
       // home: const UtilsPage(),
       home: const HomePage(),
+      supportedLocales: _supportedLocales,
+      locale: _defaultLocale,
     );
   }
 }
