@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo/src/core/theme/theme.dart';
+import 'package:todo/src/presentation/widgets/list_tiles/slaidable_list_tile.dart';
 import 'package:todo/src/presentation/widgets/widgets.dart';
 
 const _kPageTitle = 'Мои дела';
@@ -17,6 +20,7 @@ const _kTODOSpace = 5.0;
 
 const _kTODOBorderRadius = Radius.circular(16.0);
 const _kTODODividerMargin = 52.0;
+const _kTODOBottomPadding = 78.0;
 
 /// An Home Page of Application
 class HomePage extends StatelessWidget {
@@ -38,7 +42,7 @@ class HomePage extends StatelessWidget {
       ),
     ];
 
-    if (_kPerfectDesignIndex != null) {
+    if (_kPerfectDesignIndex != null && kDebugMode) {
       final assetPath = [
         'assets/design/home-screen-',
         _kPerfectDesignIndex,
@@ -92,7 +96,7 @@ class HomePage extends StatelessWidget {
     required String title,
     Widget? subtitle,
   }) {
-    return CustomListTile(
+    return CustomSlaidableListTile(
       title: Text(title),
       subtitle: subtitle,
       leading: const RoundedCheckbox(),
@@ -117,7 +121,6 @@ class HomePage extends StatelessWidget {
 
     return <Widget>[
       _buildTODOListTile(context, title: 'Купить сыр'),
-      _buildTODOListTile(context, title: 'Сделать пиццу'),
       _buildTODOListTile(
         context,
         title: 'Задание',
@@ -141,7 +144,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      _buildTODOCreate(context),
+      _buildTODOListTile(context, title: 'Сделать пиццу'),
     ];
   }
 
@@ -149,7 +152,17 @@ class HomePage extends StatelessWidget {
     final backgroundColor = AppColors.back.secondary.resolveFrom(context);
     final separatorColor = AppColors.support.separator.resolveFrom(context);
 
-    final rows = _buildRows(context);
+    final bottomPadding =
+        MediaQuery.of(context).padding.bottom + _kTODOBottomPadding;
+
+    final rows = [
+      ..._buildRows(context),
+      ..._buildRows(context),
+      ..._buildRows(context),
+      ..._buildRows(context),
+      ..._buildRows(context),
+      _buildTODOCreate(context),
+    ];
 
     return Column(
       children: [
@@ -163,17 +176,20 @@ class HomePage extends StatelessWidget {
         const SizedBox(height: _kTODOSpace),
         ClipRRect(
           borderRadius: const BorderRadius.all(_kTODOBorderRadius),
-          child: CupertinoListSection.insetGrouped(
-            separatorColor: separatorColor,
-            margin: EdgeInsets.zero,
-            dividerMargin: 0,
-            additionalDividerMargin: _kTODODividerMargin,
-            decoration: BoxDecoration(
-              color: backgroundColor,
+          child: SlidableAutoCloseBehavior(
+            child: CupertinoListSection.insetGrouped(
+              separatorColor: separatorColor,
+              margin: EdgeInsets.zero,
+              dividerMargin: 0,
+              additionalDividerMargin: _kTODODividerMargin,
+              decoration: BoxDecoration(
+                color: backgroundColor,
+              ),
+              children: rows,
             ),
-            children: rows,
           ),
         ),
+        SizedBox(height: bottomPadding),
       ],
     );
   }

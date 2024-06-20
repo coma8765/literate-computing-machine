@@ -32,6 +32,7 @@ dependencies:
 
   flutter:
     sdk: flutter
+  flutter_slidable: ^3.1.0
   flutter_svg: ^2.0.10+1
   pixel_perfect: ^1.1.3
 
