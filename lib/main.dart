@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/pages/home_page.dart';
@@ -15,6 +16,13 @@ const _supportedLocales = [
   Locale('en'),
 ];
 
+const _localeDelegates = [
+  GlobalMaterialLocalizations.delegate,
+  GlobalCupertinoLocalizations.delegate,
+  DefaultWidgetsLocalizations.delegate,
+];
+
+
 /// An application.
 class MyApp extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
@@ -26,6 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'TODO',
       color: AppTheme().scaffoldBackgroundColor,
       theme: AppTheme(),
+      localizationsDelegates: _localeDelegates,
       // home: const UtilsPage(),
       home: const HomePage(),
       supportedLocales: _supportedLocales,
