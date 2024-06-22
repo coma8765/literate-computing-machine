@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:todo/src/core/theme/color_theme.dart';
 
@@ -5,14 +7,14 @@ import 'package:todo/src/core/theme/color_theme.dart';
 class ToggleSwitch extends StatefulWidget {
   /// This class creates an instance of [StatefulWidget].
   const ToggleSwitch({
-    this.onChanged,
+    this.confirm,
     this.defaultValue = true,
     super.key,
   });
 
   /// Called when the user toggles with switch on or off.
   // ignore: avoid_positional_boolean_parameters
-  final void Function(bool)? onChanged;
+  final FutureOr<bool> Function(bool)? confirm;
 
   /// Default value of toggle
   final bool defaultValue;
@@ -30,12 +32,14 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
     value = widget.defaultValue;
   }
 
-  void _update(bool newValue) {
-    setState(() {
-      value = newValue;
-    });
-
-    widget.onChanged?.call(newValue);
+  void _update(bool newValue) async {
+    final result = await widget.confirm?.call(newValue);
+    print(result);
+    if (result == null || result == true) {
+      setState(() {
+        value = newValue;
+      });
+    }
   }
 
   @override
