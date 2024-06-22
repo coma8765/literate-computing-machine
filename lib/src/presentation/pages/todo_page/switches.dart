@@ -122,13 +122,18 @@ class _CalendarSwitchTile extends _SwitchTile {
 
     return ToggleSwitch(
       defaultValue: false,
-      onChanged: (hasDeadline) async {
+      confirm: (hasDeadline) async {
         if (hasDeadline) {
           final dateTime = await datePick(context);
+
           calendarCubit.set(dateTime);
+          if (dateTime == null) {
+            return false;
+          }
         } else {
           calendarCubit.set(null);
         }
+        return true;
       },
     );
   }
