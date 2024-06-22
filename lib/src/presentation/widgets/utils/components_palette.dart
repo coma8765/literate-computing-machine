@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/presentation/widgets/buttons/button.dart';
+import 'package:todo/src/presentation/widgets/buttons/buttons.dart';
 
 class ComponentsPalette extends StatefulWidget {
   const ComponentsPalette({
