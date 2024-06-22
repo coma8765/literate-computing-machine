@@ -12,8 +12,12 @@ class CustomSlaidableListTile extends CustomListTile {
     super.subtitle,
     super.leading,
     super.trailing,
+    super.onTap,
+    this.onRemove,
     super.key,
   });
+
+  final void Function()? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +26,12 @@ class CustomSlaidableListTile extends CustomListTile {
       // Specify a key if the Slidable is dismissible.
       // TODO(com8765): move key to up tree level
       key: UniqueKey(),
-
       // The start action pane is the one at the left or the top side.
       startActionPane: ActionPane(
         extentRatio: 0.2,
         closeThreshold: 0.2,
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
-
-        // A pane can dismiss the Slidable.
-        dismissible: DismissiblePane(
-          onDismissed: () {},
-          confirmDismiss: () => Future.value(false),
-          closeOnCancel: true,
-        ),
 
         // All actions are defined in the children parameter.
         children: [
@@ -50,7 +46,7 @@ class CustomSlaidableListTile extends CustomListTile {
 
       // The end action pane is the one at the right or the bottom side.
       endActionPane: ActionPane(
-        dismissible: DismissiblePane(onDismissed: () {}),
+        dismissible: DismissiblePane(onDismissed: onRemove ?? () {}),
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
@@ -63,7 +59,9 @@ class CustomSlaidableListTile extends CustomListTile {
           ),
           SlidableAction(
             flex: 2,
-            onPressed: (context) {},
+            onPressed: (context) {
+              onRemove!.call();
+            },
             backgroundColor: AppColors.red.resolveFrom(context),
             foregroundColor: AppColors.white.resolveFrom(context),
             icon: CupertinoIcons.trash_fill,

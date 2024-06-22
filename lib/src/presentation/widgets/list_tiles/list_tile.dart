@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:todo/src/core/theme/theme.dart';
 
@@ -29,6 +31,7 @@ class CustomListTile extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.onTap,
     super.key,
   });
 
@@ -46,6 +49,14 @@ class CustomListTile extends StatelessWidget {
   /// A widget displayed at the end of the [CupertinoListTile]. This is usually
   /// a right chevron icon (e.g. `CupertinoListTileChevron`), or an `Icon`.
   final Widget? trailing;
+
+  /// The [onTap] function is called when a user taps on [CupertinoListTile]. If
+  /// left `null`, the [CupertinoListTile] will not react on taps. If this is a
+  /// `Future<void> Function()`, then the [CupertinoListTile] remains activated
+  /// until the returned future is awaited. This is according to iOS behavior.
+  /// However, if this function is a `void Function()`, then the tile is active
+  /// only for the duration of invocation.
+  final FutureOr<void> Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +88,7 @@ class CustomListTile extends StatelessWidget {
         subtitle == null ? _kTileTextHeight : _kTileWithSubtitleTextHeight;
 
     return CupertinoListTile(
+      onTap: onTap,
       padding: padding,
       leadingSize: _kTileIconHeight,
       leading: SizedBox(
