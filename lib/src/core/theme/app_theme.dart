@@ -6,7 +6,7 @@ class AppTheme extends CupertinoThemeData {
   /// Creates AppTheme's instance for both themes.
   factory AppTheme() {
     return AppTheme._(
-      primaryColor: AppColors.back.secondary,
+      primaryColor: AppColors.label.primary,
       barBackgroundColor: AppColors.support.navbar,
       scaffoldBackgroundColor: CupertinoDynamicColor.withBrightness(
         color: AppColors.back.primary.color,
