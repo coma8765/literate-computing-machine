@@ -4,7 +4,6 @@ import 'package:todo/src/presentation/widgets/buttons/custom_button.dart';
 
 const _defaultText = 'Cохранить';
 
-
 /// A stylized button to complete the action
 class SaveButton extends CustomButton {
   /// This class creates an instance of [StatelessWidget].
@@ -18,6 +17,10 @@ class SaveButton extends CustomButton {
     EdgeInsetsGeometry? padding,
     Key? key,
   }) {
+    const textStyle = TextStyle(
+      fontWeight: FontWeight.w600,
+    );
+
     return SaveButton._(
       color: color ?? AppColors.blue,
       key: key,
@@ -26,7 +29,7 @@ class SaveButton extends CustomButton {
       borderRadius: borderRadius,
       alignment: alignment,
       padding: padding,
-      child: child ?? const Text(_defaultText),
+      child: child ?? const Text(_defaultText, style: textStyle),
     );
   }
 
