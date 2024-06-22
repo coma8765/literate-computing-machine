@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/src/core/theme/theme.dart';
@@ -10,9 +9,6 @@ import 'package:todo/src/presentation/widgets/widgets.dart';
 
 const _kPageTitle = 'Мои дела';
 const _kPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
-
-// ignore: use_late_for_private_fields_and_variables,unnecessary_nullable_for_final_variable_declarations
-const int? _kPerfectDesignIndex = null;
 
 const _kTODOHeaderPadding = EdgeInsets.symmetric(
   vertical: 7,
@@ -34,8 +30,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = MediaQuery.of(context).platformBrightness;
-
     const largeTitle = Text(_kPageTitle);
     final slivers = [
       SliverPadding(
@@ -45,22 +39,6 @@ class HomePage extends StatelessWidget {
         ),
       ),
     ];
-
-    if (_kPerfectDesignIndex != null && kDebugMode) {
-      final assetPath = [
-        'assets/design/home-screen-',
-        _kPerfectDesignIndex,
-        '-',
-        brightness.name,
-        '.jpg',
-      ].join();
-
-      return PerfectAppSliverScaffold(
-        assetPath: assetPath,
-        slivers: slivers,
-        largeTitle: largeTitle,
-      );
-    }
 
     return AppSliverScaffold(slivers: slivers, largeTitle: largeTitle);
   }
