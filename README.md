@@ -1,16 +1,13 @@
-# todo
+# TODO App
 
-A new Flutter project.
+## Screenshots
+![home-page-screen-light.png](docs/images/home-page-screen-light.png)
+![home-page-screen-light.png](docs/images/home-page-screen-dark.png)
+![todo-page-screen-dark.png](docs/images/todo-page-screen-dark.png)
+![todo-page-screen-light.png](docs/images/todo-page-screen-light.png)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Futures (Фичи)
+- просмотр списка задач
+- создание/редактирование задачи
+- Удаление фичи, через смахивание
