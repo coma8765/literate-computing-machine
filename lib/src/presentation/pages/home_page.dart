@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/domain/entities/fake/todo_fake.dart';
+import 'package:todo/src/presentation/pages/todo_page/todo_page.dart';
 import 'package:todo/src/presentation/widgets/widgets.dart';
 
 const _kPageTitle = 'Мои дела';
@@ -39,9 +40,8 @@ class HomePage extends StatelessWidget {
     final slivers = [
       SliverPadding(
         padding: _kPagePadding,
-        sliver: SliverList.builder(
-          itemCount: 1,
-          itemBuilder: (context, _) => _buildTODOSection(context),
+        sliver: SliverList.list(
+          children: const [_ListSection()],
         ),
       ),
     ];
@@ -64,8 +64,29 @@ class HomePage extends StatelessWidget {
 
     return AppSliverScaffold(slivers: slivers, largeTitle: largeTitle);
   }
+}
 
-  Widget _buildTODOHeader(BuildContext context) {
+class _ListCreateTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final color = AppColors.label.tertiary.resolveFrom(context);
+    final textStyle = TextStyle(color: color);
+
+    return CustomListTile(
+      title: Text('Новое', style: textStyle),
+      onTap: () {
+        final todo = TODO.create();
+        showTODOPage(context, todo);
+      },
+    );
+  }
+}
+
+class _ListSectionHeader extends StatelessWidget {
+  const _ListSectionHeader();
+
+  @override
+  Widget build(BuildContext context) {
     const completeText = 'Выполнено — 5';
 
     final completeColor = AppColors.label.tertiary.resolveFrom(context);
@@ -94,57 +115,27 @@ class HomePage extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildTODOListTile(BuildContext context, TODO todo) {
-    final subtitleColor = AppColors.label.tertiary.resolveFrom(context);
-    final subtitleStyle = AppTextStyles.subhead.copyWith(
-      color: subtitleColor,
-    );
+class _ListSection extends StatefulWidget {
+  const _ListSection();
 
-    Widget? subtitle;
+  @override
+  State<_ListSection> createState() => _ListSectionState();
+}
 
-    if (todo.deadline != null) {
-      final deadlineText = DateFormat('d MMMM', 'ru').format(todo.deadline!);
+class _ListSectionState extends State<_ListSection> {
+  late Set<String> removedItemsUid;
 
-      subtitle = RichText(
-        text: TextSpan(
-          children: [
-            WidgetSpan(
-              child: Icon(
-                CupertinoIcons.calendar,
-                size: subtitleStyle.fontSize,
-                color: subtitleColor,
-              ),
-              alignment: PlaceholderAlignment.middle,
-            ),
-            const TextSpan(text: ' '),
-            TextSpan(
-              text: deadlineText,
-              style: subtitleStyle,
-            ),
-          ],
-        ),
-      );
-    }
+  @override
+  void initState() {
+    super.initState();
 
-    return CustomSlaidableListTile(
-      title: Text(todo.title),
-      subtitle: subtitle,
-      leading: const RoundedCheckbox(),
-      trailing: const CustomChevron(),
-    );
+    removedItemsUid = {};
   }
 
-  Widget _buildTODOCreate(BuildContext context) {
-    final color = AppColors.label.tertiary.resolveFrom(context);
-    final textStyle = TextStyle(color: color);
-
-    return CustomListTile(
-      title: Text('Новое', style: textStyle),
-    );
-  }
-
-  Widget _buildTODOSection(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final backgroundColor = AppColors.back.secondary.resolveFrom(context);
     final separatorColor = AppColors.support.separator.resolveFrom(context);
 
@@ -152,17 +143,27 @@ class HomePage extends StatelessWidget {
         MediaQuery.of(context).padding.bottom + _kTODOBottomPadding;
 
     final rows = [
-      ..._todos.map((todo) => _buildTODOListTile(context, todo)),
-      _buildTODOCreate(context),
+      ..._todos.where((todo) => !removedItemsUid.contains(todo.uid)).map(
+            (todo) => _ListTile(
+              key: ValueKey(todo.uid),
+              todo: todo,
+              onRemove: () {
+                setState(() {
+                  removedItemsUid.add(todo.uid);
+                });
+              },
+            ),
+          ),
+      _ListCreateTile(),
     ];
 
     return Column(
       children: [
-        Padding(
+        const Padding(
           padding: _kTODOHeaderPadding,
           child: SizedBox(
             height: _kTODOHeaderHeight,
-            child: Builder(builder: _buildTODOHeader),
+            child: _ListSectionHeader(),
           ),
         ),
         const SizedBox(height: _kTODOSpace),
@@ -183,6 +184,71 @@ class HomePage extends StatelessWidget {
         ),
         SizedBox(height: bottomPadding),
       ],
+    );
+  }
+}
+
+class _ListTileSubtitle extends StatelessWidget {
+  const _ListTileSubtitle({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitleColor = AppColors.label.tertiary.resolveFrom(context);
+    final subtitleStyle = AppTextStyles.subhead.copyWith(
+      color: subtitleColor,
+    );
+
+    return RichText(
+      text: TextSpan(
+        children: [
+          WidgetSpan(
+            child: Icon(
+              CupertinoIcons.calendar,
+              size: subtitleStyle.fontSize,
+              color: subtitleColor,
+            ),
+            alignment: PlaceholderAlignment.middle,
+          ),
+          const TextSpan(text: ' '),
+          TextSpan(
+            text: text,
+            style: subtitleStyle,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ListTile extends StatelessWidget {
+  const _ListTile({
+    required this.todo,
+    this.onRemove,
+    super.key,
+  });
+
+  final TODO todo;
+  final void Function()? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget? subtitle;
+
+    if (todo.deadline != null) {
+      final deadlineText = DateFormat('d MMMM', 'ru').format(todo.deadline!);
+      subtitle = _ListTileSubtitle(text: deadlineText);
+    }
+
+    return CustomSlaidableListTile(
+      key: ValueKey(todo.uid),
+      onTap: () => showTODOPage(context, todo),
+      title: Text(todo.title),
+      subtitle: subtitle,
+      leading: const RoundedCheckbox(),
+      trailing: const CustomChevron(),
+      onRemove: onRemove,
     );
   }
 }
