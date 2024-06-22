@@ -4,10 +4,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/pages/home_page.dart';
 
+import 'package:todo/src/core/profiling/sentry.dart';
+
 void main() async {
   await initializeDateFormatting('ru', '');
 
-  runApp(const MyApp());
+  await includeSentry(
+    appRunner: () => runApp(const MyApp()),
+  );
 }
 
 const _defaultLocale = Locale('ru');

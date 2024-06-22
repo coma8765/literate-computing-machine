@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:logging/logging.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/domain/entities/fake/todo_fake.dart';
@@ -104,11 +105,13 @@ class _ListSection extends StatefulWidget {
 
 class _ListSectionState extends State<_ListSection> {
   late Set<String> removedItemsUid;
+  late Logger logger;
 
   @override
   void initState() {
     super.initState();
 
+    logger = Logger('HomePageLogger');
     removedItemsUid = {};
   }
 
@@ -128,6 +131,7 @@ class _ListSectionState extends State<_ListSection> {
               onRemove: () {
                 setState(() {
                   removedItemsUid.add(todo.uid);
+                  logger.info('mark todo ${todo.uid} as removed');
                 });
               },
             ),
