@@ -13,6 +13,7 @@ class CustomButton extends StatelessWidget {
     this.alignment,
     this.color,
     this.padding,
+    this.margin = EdgeInsets.zero,
   }) : _filled = false;
 
   /// This class creates an instance of [StatelessWidget] with filled style.
@@ -25,6 +26,7 @@ class CustomButton extends StatelessWidget {
     this.alignment,
     this.color,
     this.padding,
+    this.margin = EdgeInsets.zero,
   }) : _filled = true;
 
   /// The widget below this widget in the tree.
@@ -73,6 +75,14 @@ class CustomButton extends StatelessWidget {
   /// Type of the button
   final bool _filled;
 
+
+  /// Margin around the content area of the section encapsulating [child].
+  ///
+  /// Defaults to zero padding if constructed with standard
+  /// [CustomButton] constructor.
+  final EdgeInsets margin;
+
+
   @override
   Widget build(BuildContext context) {
     final theme = CupertinoTheme.of(context);
@@ -85,8 +95,11 @@ class CustomButton extends StatelessWidget {
       color: foregroundColor,
     );
 
+    final childWrapped = DefaultTextStyle(style: textStyle, child: child);
+
+    late Widget buttonWidget;
     if (_filled) {
-      return CupertinoTheme(
+      buttonWidget = CupertinoTheme(
         data: theme.copyWith(
           primaryColor: AppColors.back.secondary,
         ),
@@ -97,20 +110,21 @@ class CustomButton extends StatelessWidget {
           borderRadius: borderRadius,
           alignment: alignment ?? Alignment.center,
           padding: padding,
-          child: DefaultTextStyle(style: textStyle, child: child),
+          child: childWrapped,
         ),
       );
+    } else {
+      buttonWidget = CupertinoButton(
+        onPressed: onPressed,
+        disabledColor: const Color(0x00000000),
+        pressedOpacity: pressedOpacity,
+        borderRadius: borderRadius,
+        alignment: alignment ?? Alignment.center,
+        padding: padding,
+        child: childWrapped,
+      );
     }
-    return CupertinoButton(
-      onPressed: onPressed,
-      disabledColor: const Color(0x00000000),
-      pressedOpacity: pressedOpacity,
-      borderRadius: borderRadius,
-      alignment: alignment ?? Alignment.center,
-      color: color,
-      padding: padding,
-      child: child,
-      // child: DefaultTextStyle(style: textStyle, child: child),
-    );
+
+    return Padding(padding: margin, child: buttonWidget);
   }
 }
