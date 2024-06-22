@@ -60,7 +60,7 @@ class CustomSlaidableListTile extends CustomListTile {
           SlidableAction(
             flex: 2,
             onPressed: (context) {
-              onRemove!.call();
+              onRemove?.call();
             },
             backgroundColor: AppColors.red.resolveFrom(context),
             foregroundColor: AppColors.white.resolveFrom(context),

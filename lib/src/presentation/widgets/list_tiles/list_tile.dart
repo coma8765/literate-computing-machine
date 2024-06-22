@@ -77,7 +77,7 @@ class CustomListTile extends StatelessWidget {
               children: [
                 Positioned(
                   top: -_kNotchedTitleToSubtitle,
-                  child: subtitle!,
+                  child: subtitle ?? const SizedBox.shrink(),
                 ),
               ],
             ),

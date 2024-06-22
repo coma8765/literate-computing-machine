@@ -55,7 +55,7 @@ class _AppSliverScaffoldState extends State<AppSliverScaffold> {
         _spoiled = spoiled;
 
         if (_spoiledTimer != null && _spoiledTimer!.isActive) {
-          _spoiledTimer!.cancel();
+          _spoiledTimer?.cancel();
         }
 
         _spoiledTimer = Timer(
