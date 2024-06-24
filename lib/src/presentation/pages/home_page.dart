@@ -223,7 +223,7 @@ class _ListTile extends StatelessWidget {
       subtitle = _ListTileSubtitle(text: deadlineText);
     }
 
-    return CustomSlaidableListTile(
+    return CustomSlidableListTile(
       key: ValueKey(todo.uid),
       onTap: () => showTODOPage(context, todo),
       title: Text(todo.title),

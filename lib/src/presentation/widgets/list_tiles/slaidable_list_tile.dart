@@ -5,9 +5,9 @@ import 'package:todo/src/core/theme/color_theme.dart';
 import 'package:todo/src/presentation/widgets/list_tiles/list_tile.dart';
 
 /// Custom widget for list tiles with slaidable actions
-class CustomSlaidableListTile extends CustomListTile {
+class CustomSlidableListTile extends CustomListTile {
   /// This class creates an instance of [StatelessWidget].
-  const CustomSlaidableListTile({
+  const CustomSlidableListTile({
     required super.title,
     super.subtitle,
     super.leading,
