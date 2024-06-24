@@ -112,7 +112,7 @@ class _TODOEditState extends State<_TODOEdit> {
     final backgroundBackground = AppColors.back.secondary.resolveFrom(context);
 
     final fields = [
-      TextField(backgroundBackground: backgroundBackground),
+      CustomTextField(backgroundBackground: backgroundBackground),
       const Switches(),
       const CustomButton.filled(
         onPressed: null,

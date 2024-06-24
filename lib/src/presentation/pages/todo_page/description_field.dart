@@ -7,9 +7,9 @@ const _minHeight = 120.0;
 const _textPadding = EdgeInsets.all(16.0);
 
 /// A Text Field
-class TextField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
-  const TextField({
+  const CustomTextField({
     required Color backgroundBackground,
     super.key,
   }) : _backgroundBackground = backgroundBackground;
