@@ -8,70 +8,87 @@ import 'package:todo/src/presentation/widgets/list_tiles/list_tile.dart';
 class CustomSlidableListTile extends CustomListTile {
   /// This class creates an instance of [StatelessWidget].
   const CustomSlidableListTile({
+    required super.key,
     required super.title,
+    required this.startActionPane,
+    required this.endActionPane,
     super.subtitle,
     super.leading,
     super.trailing,
     super.onTap,
     this.onRemove,
-    super.key,
   });
 
   final void Function()? onRemove;
 
+  final ActionPane startActionPane;
+  final ActionPane endActionPane;
+
   @override
   Widget build(BuildContext context) {
-    // TODO(coma8765): refactor this widget
     return Slidable(
-      // Specify a key if the Slidable is dismissible.
-      // TODO(com8765): move key to up tree level
-      key: UniqueKey(),
-      // The start action pane is the one at the left or the top side.
-      startActionPane: ActionPane(
-        extentRatio: 0.2,
-        closeThreshold: 0.2,
-        // A motion is a widget used to control how the pane animates.
-        motion: const ScrollMotion(),
-
-        // All actions are defined in the children parameter.
-        children: [
-          SlidableAction(
-            onPressed: (context) {},
-            backgroundColor: AppColors.green.resolveFrom(context),
-            foregroundColor: AppColors.white.resolveFrom(context),
-            icon: CupertinoIcons.check_mark_circled_solid,
-          ),
-        ],
-      ),
-
-      // The end action pane is the one at the right or the bottom side.
-      endActionPane: ActionPane(
-        dismissible: DismissiblePane(onDismissed: onRemove ?? () {}),
-        motion: const ScrollMotion(),
-        children: [
-          SlidableAction(
-            // An action can be bigger than the others.
-            flex: 2,
-            onPressed: (context) {},
-            backgroundColor: AppColors.greyLight.resolveFrom(context),
-            foregroundColor: AppColors.white.resolveFrom(context),
-            icon: CupertinoIcons.info_circle_fill,
-          ),
-          SlidableAction(
-            flex: 2,
-            onPressed: (context) {
-              onRemove?.call();
-            },
-            backgroundColor: AppColors.red.resolveFrom(context),
-            foregroundColor: AppColors.white.resolveFrom(context),
-            icon: CupertinoIcons.trash_fill,
-          ),
-        ],
-      ),
-
-      // The child of the Slidable is what the user sees when the
-      // component is not dragged.
+      key: ObjectKey(key),
+      startActionPane: startActionPane,
+      endActionPane: endActionPane,
       child: Builder(builder: super.build),
     );
   }
+}
+
+class CustomIconSlidableAction extends StatelessWidget {
+  const CustomIconSlidableAction({
+    required this.icon,
+    this.backgroundColor = AppColors.blue,
+    this.foregroundColor = AppColors.white,
+    this.onPressed,
+    super.key,
+  });
+
+  final IconData icon;
+  final void Function(BuildContext)? onPressed;
+
+  final Color backgroundColor;
+  final Color foregroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor = CupertinoDynamicColor.resolve(
+      this.backgroundColor,
+      context,
+    );
+    final foregroundColor = CupertinoDynamicColor.resolve(
+      this.foregroundColor,
+      context,
+    );
+
+    return SlidableAction(
+      onPressed: onPressed,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      icon: icon,
+    );
+  }
+}
+
+class CustomActionPane extends ActionPane {
+  factory CustomActionPane({
+    required List<Widget> children,
+    Key? key,
+    DismissiblePane? dismissible,
+  }) {
+    return CustomActionPane._(
+      key: key,
+      extentRatio: 0.2 * children.length,
+      dismissible: dismissible,
+      children: children,
+    );
+  }
+
+  const CustomActionPane._({
+    required super.children,
+    super.extentRatio,
+    super.motion = const ScrollMotion(),
+    super.key,
+    super.dismissible,
+  }) : super(closeThreshold: 0.2);
 }

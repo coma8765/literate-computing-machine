@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_slidable/flutter_slidable.dart' show DismissiblePane, SlidableAutoCloseBehavior;
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:todo/src/core/theme/theme.dart';
@@ -231,6 +231,29 @@ class _ListTile extends StatelessWidget {
       leading: const RoundedCheckbox(),
       trailing: const CustomChevron(),
       onRemove: onRemove,
+      startActionPane: CustomActionPane(
+        children: const [
+          CustomIconSlidableAction(
+            icon: CupertinoIcons.check_mark_circled_solid,
+            backgroundColor: AppColors.green,
+          ),
+        ],
+      ),
+      endActionPane: CustomActionPane(
+        dismissible: DismissiblePane(onDismissed: onRemove ?? () {}),
+        children: [
+          CustomIconSlidableAction(
+            icon: CupertinoIcons.info_circle_fill,
+            backgroundColor: AppColors.greyLight,
+            onPressed: (context) => showTODOPage(context, todo),
+          ),
+          CustomIconSlidableAction(
+            icon: CupertinoIcons.trash_fill,
+            backgroundColor: AppColors.red,
+            onPressed: (context) => onRemove?.call(),
+          ),
+        ],
+      ),
     );
   }
 }
