@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:todo/src/core/profiling/sentry.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/pages/home_page.dart';
-
-import 'package:todo/src/core/profiling/sentry.dart';
 
 void main() async {
   await initializeDateFormatting('ru', '');
