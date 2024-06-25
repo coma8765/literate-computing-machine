@@ -3,20 +3,11 @@ import 'package:todo/src/core/theme/theme.dart';
 
 /// Custom Cupertino Theme Data.
 class AppTheme extends CupertinoThemeData {
+
   /// Creates AppTheme's instance for both themes.
   factory AppTheme() {
-    return AppTheme._(
-      primaryColor: AppColors.label.primary,
-      barBackgroundColor: AppColors.support.navbar,
-      scaffoldBackgroundColor: CupertinoDynamicColor.withBrightness(
-        color: AppColors.back.primary.color,
-        darkColor: AppColors.back.iOSPrimary.darkColor,
-      ),
-      primaryContrastingColor: AppColors.back.secondary.darkColor,
-      textTheme: _textTheme,
-    );
+    return _singleton;
   }
-
   const AppTheme._({
     super.primaryColor,
     super.primaryContrastingColor,
@@ -24,6 +15,17 @@ class AppTheme extends CupertinoThemeData {
     super.barBackgroundColor,
     super.scaffoldBackgroundColor,
   });
+
+  static final AppTheme _singleton = AppTheme._(
+    primaryColor: AppColors.label.primary,
+    barBackgroundColor: AppColors.support.navbar,
+    scaffoldBackgroundColor: CupertinoDynamicColor.withBrightness(
+      color: AppColors.back.primary.color,
+      darkColor: AppColors.back.iOSPrimary.darkColor,
+    ),
+    primaryContrastingColor: AppColors.back.secondary.darkColor,
+    textTheme: _textTheme,
+  );
 
   static CupertinoTextThemeData get _textTheme => CupertinoTextThemeData(
         primaryColor: AppColors.label.primary,
