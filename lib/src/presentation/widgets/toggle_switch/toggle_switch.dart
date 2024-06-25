@@ -32,9 +32,8 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
     value = widget.defaultValue;
   }
 
-  void _update(bool newValue) async {
+  Future<void> _update(bool newValue) async {
     final result = await widget.confirm?.call(newValue);
-    print(result);
     if (result == null || result == true) {
       setState(() {
         value = newValue;
