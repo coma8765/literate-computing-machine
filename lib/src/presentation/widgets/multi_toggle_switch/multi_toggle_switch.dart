@@ -82,20 +82,16 @@ class _MultiToggleSwitchState extends State<MultiToggleSwitch> {
   }
 
   Widget _buildTile(int index, bool state) {
-    return SizedBox(
-      height: widget.itemHeight,
-      width: widget.itemWeight,
-      child: _SwitchTile(
-        key: UniqueKey(),
-        onTap: () {
-          setState(() {
-            _updateState(index);
-          });
-        },
-        widget: widget,
-        state: state,
-        index: index,
-      ),
+    return _SwitchTile(
+      key: UniqueKey(),
+      onTap: () {
+        setState(() {
+          _updateState(index);
+        });
+      },
+      widget: widget,
+      state: state,
+      index: index,
     );
   }
 
@@ -147,21 +143,25 @@ class _SwitchTile extends StatelessWidget {
 
     final backgroundColor = state ? activeBackgroundColor : null;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: widget.itemMargin,
-        height: widget.itemHeight,
-        width: widget.itemWeight,
-        decoration: BoxDecoration(
-          borderRadius: widget.borderRadius,
-          color: backgroundColor,
-        ),
-        child: Center(
-          child: widget.itemBuilder(
-            context: context,
-            index: index,
-            isActive: state,
+    return SizedBox(
+      height: widget.itemHeight,
+      width: widget.itemWeight,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: widget.itemMargin,
+          height: widget.itemHeight,
+          width: widget.itemWeight,
+          decoration: BoxDecoration(
+            borderRadius: widget.borderRadius,
+            color: backgroundColor,
+          ),
+          child: Center(
+            child: widget.itemBuilder(
+              context: context,
+              index: index,
+              isActive: state,
+            ),
           ),
         ),
       ),
