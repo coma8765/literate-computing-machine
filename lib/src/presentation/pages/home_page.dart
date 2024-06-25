@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart' show DismissiblePane, SlidableAutoCloseBehavior;
-import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
@@ -219,7 +218,7 @@ class _ListTile extends StatelessWidget {
     Widget? subtitle;
 
     if (todo.deadline != null) {
-      final deadlineText = DateFormat('d MMMM', 'ru').format(todo.deadline!);
+      final deadlineText = DateTheme.toMonthDayString(todo.deadline!);
       subtitle = _ListTileSubtitle(text: deadlineText);
     }
 

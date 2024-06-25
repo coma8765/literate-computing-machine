@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/widgets/date_picker/date_picker.dart';
 import 'package:todo/src/presentation/widgets/multi_toggle_switch/multi_toggle_switch.dart';
@@ -141,8 +140,12 @@ class _CalendarSwitchTile extends _SwitchTile {
   @override
   Widget buildTitle(BuildContext context) {
     return BlocBuilder<_CalendarCubit, DateTime?>(
-      builder: (context, dateTime) {
-        final dateFormat = DateFormat('d MMMM y', 'ru');
+      builder: (context, date) {
+        String? deadlineText;
+        if (date != null) {
+          deadlineText = DateTheme.toFullDateString(date);
+        }
+
         final deadlineColor = AppColors.blue.resolveFrom(context);
         final deadlineTextStyle = AppTextStyles.footnote.copyWith(
           color: deadlineColor,
@@ -152,9 +155,9 @@ class _CalendarSwitchTile extends _SwitchTile {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Сделать до'),
-            if (dateTime != null)
+            if (date != null)
               Text(
-                dateFormat.format(dateTime),
+                deadlineText!,
                 style: deadlineTextStyle,
               ),
           ],
