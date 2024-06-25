@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
+import 'package:todo/src/core/config/config.dart';
 
 /// Sentry wrapper
 Future<void> includeSentry({
@@ -10,7 +11,7 @@ Future<void> includeSentry({
   await SentryFlutter.init(
     (options) {
       options
-        ..dsn = const String.fromEnvironment('SENTRY_DSN')
+        ..dsn = Config().sentryDsn
         ..tracesSampleRate = 1.0
         ..profilesSampleRate = 1.0
         ..addIntegration(LoggingIntegration());

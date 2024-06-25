@@ -40,6 +40,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_dotenv: ^5.1.0
   flutter_localizations:
     sdk: flutter
   flutter_slidable: ^3.1.0
@@ -133,5 +134,6 @@ flutter:
           weight: 600
 
   assets:
+    - .env
     - assets/design/
     - assets/svg/
