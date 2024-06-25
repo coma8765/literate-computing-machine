@@ -1,16 +1,19 @@
-# todo
+# TODO App
 
-A new Flutter project.
+## Screenshots
+![home-page-screen-light.png](docs/images/home-page-screen-light.png)
+![home-page-screen-light.png](docs/images/home-page-screen-dark.png)
+![todo-page-screen-dark.png](docs/images/todo-page-screen-dark.png)
+![todo-page-screen-light.png](docs/images/todo-page-screen-light.png)
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Futures (Фичи)
+- просмотр списка задач
+- создание/редактирование задачи
+- Переход можеджу страницами
+- Удаление элемента, через смахивание
+- Логгирование через сервис Sentry
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## APK файлы
+Тут:
+[https://github.com/coma8765/literate-computing-machine/releases/tag/part-01](https://github.com/coma8765/literate-computing-machine/releases/tag/part-01)
