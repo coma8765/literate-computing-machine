@@ -17,4 +17,4 @@
 
 ## APK файлы
 Тут:
-[https://github.com/coma8765/literate-computing-machine/releases/tag/part-02](https://github.com/coma8765/literate-computing-machine/releases/tag/part-01)
+[https://github.com/coma8765/literate-computing-machine/releases/tag/part-02](https://github.com/coma8765/literate-computing-machine/releases/tag/part-02)
