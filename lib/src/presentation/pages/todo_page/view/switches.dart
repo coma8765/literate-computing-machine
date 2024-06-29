@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo/bootstrap.dart';
 import 'package:todo/src/core/theme/theme.dart';
+import 'package:todo/src/presentation/pages/todo_page/cubit/cubit.dart';
 import 'package:todo/src/presentation/widgets/date_picker/date_picker.dart';
 import 'package:todo/src/presentation/widgets/multi_toggle_switch/multi_toggle_switch.dart';
 import 'package:todo/src/presentation/widgets/toggle_switch/toggle_switch.dart';
+import 'package:todos_api/todos_api.dart';
 
 const _switchTileTitlePadding = EdgeInsets.symmetric(
   horizontal: 16.0,
@@ -52,50 +55,60 @@ class _ImportantSwitchTile extends _SwitchTile {
 
   @override
   Widget buildSwitch(BuildContext context) {
-    return MultiToggleSwitch(
-      itemHeight: 31.5,
-      itemWeight: 48.0,
-      itemCount: 3,
-      defaultItem: 1,
-      itemBuilder: ({
-        required BuildContext context,
-        required int index,
-        required bool isActive,
-      }) {
-        switch (index) {
-          case 0:
-            return SvgPicture.asset(
-              'assets/svg/priority-low.svg',
-              height: 20.0,
-              width: 16.0,
-              fit: BoxFit.none,
-            );
-          case 1:
-            final textStyle = AppTextStyles.subhead.copyWith(
-              fontWeight: FontWeight.w500,
-              color: CupertinoTheme.of(context).primaryColor,
-            );
+    return BlocBuilder<TodoCubit, TodoState>(
+      buildWhen: (prev, curr) => prev.importance != curr.importance,
+      builder: (context, state) {
+        final index = Importance.values.indexOf(state.importance);
 
-            return Text(
-              'нет',
-              style: textStyle,
-              strutStyle: StrutStyle(
-                fontSize: textStyle.fontSize,
-                height: 1.0,
-                forceStrutHeight: true,
-              ),
-            );
+        return MultiToggleSwitch(
+          itemHeight: 31.5,
+          itemWeight: 48.0,
+          itemCount: 3,
+          defaultItem: index,
+          onChange: (index) {
+            context.read<TodoCubit>().setImportance(Importance.values[index]);
+          },
+          itemBuilder: ({
+            required BuildContext context,
+            required int index,
+            required bool isActive,
+          }) {
+            switch (index) {
+              case 0:
+                return SvgPicture.asset(
+                  'assets/svg/priority-low.svg',
+                  height: 20.0,
+                  width: 16.0,
+                  fit: BoxFit.none,
+                );
+              case 1:
+                final textStyle = AppTextStyles.subhead.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: CupertinoTheme.of(context).primaryColor,
+                );
 
-          case 2:
-            return SvgPicture.asset(
-              'assets/svg/priority-high.svg',
-              height: 20.0,
-              width: 16.0,
-              fit: BoxFit.none,
-            );
-        }
+                return Text(
+                  'нет',
+                  style: textStyle,
+                  strutStyle: StrutStyle(
+                    fontSize: textStyle.fontSize,
+                    height: 1.0,
+                    forceStrutHeight: true,
+                  ),
+                );
 
-        return const Placeholder(child: Text('???'));
+              case 2:
+                return SvgPicture.asset(
+                  'assets/svg/priority-high.svg',
+                  height: 20.0,
+                  width: 16.0,
+                  fit: BoxFit.none,
+                );
+            }
+
+            return const Placeholder(child: Text('???'));
+          },
+        );
       },
     );
   }
@@ -180,9 +193,15 @@ class Switches extends StatelessWidget {
     ];
 
     final separatorColor = AppColors.support.separator.resolveFrom(context);
+    final todoCubit = context.read<TodoCubit>();
 
     return BlocProvider(
-      create: (_) => _CalendarCubit(),
+      create: (_) => _CalendarCubit()
+        ..stream.forEach(
+          (deadline) => deadline != null
+              ? todoCubit.setDeadline(deadline)
+              : todoCubit.emptyDeadline(),
+        ),
       child: CupertinoListSection.insetGrouped(
         margin: EdgeInsetsDirectional.zero,
         backgroundColor: WidgetStateColor.transparent,

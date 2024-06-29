@@ -11,10 +11,14 @@ class CustomTextField extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
   const CustomTextField({
     required Color backgroundBackground,
+    this.initialValue,
+    this.onChanged,
     super.key,
   }) : _backgroundBackground = backgroundBackground;
 
+  final String? initialValue;
   final Color _backgroundBackground;
+  final void Function(String value)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +38,20 @@ class CustomTextField extends StatelessWidget {
       ),
       child: Padding(
         padding: _textPadding,
-        child: CupertinoTextField(
+        child: CupertinoTextFormFieldRow(
+          initialValue: initialValue,
           decoration: const BoxDecoration(
             color: WidgetStateColor.transparent,
           ),
           padding: EdgeInsetsDirectional.zero,
-          enableInteractiveSelection: true,
           maxLines: _maxLines,
           cursorColor: cursorColor,
           minLines: 1,
           placeholder: _placeholderText,
           textAlignVertical: TextAlignVertical.top,
+          onChanged: onChanged,
+          // onSaved: (text) => onChanged?.call(text ?? ''),
+          // onEditingComplete: onChanged,
         ),
       ),
     );
