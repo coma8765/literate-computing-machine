@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_slidable/flutter_slidable.dart' show DismissiblePane, SlidableAutoCloseBehavior;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart'
+    show DismissiblePane, SlidableAutoCloseBehavior;
 import 'package:logging/logging.dart';
 import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/domain/entities/fake/todo_fake.dart';
+import 'package:todo/src/presentation/pages/home_page/bloc/home_bloc.dart';
 import 'package:todo/src/presentation/pages/todo_page/todo_page.dart';
 import 'package:todo/src/presentation/widgets/widgets.dart';
+import 'package:todos_api/src/models/todo.dart' show Todo;
 
 const _kPageTitle = 'Мои дела';
 const _kPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
@@ -24,18 +27,26 @@ const _kTODOBottomPadding = 78.0;
 final _todos = TODOFactory().generateFakeList(length: 10);
 
 /// An Home Page of Application
-class HomePage extends StatelessWidget {
+class HomeView extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
-  const HomePage({super.key});
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<HomeBloc>().stream.listen(print);
+
     const largeTitle = Text(_kPageTitle);
     final slivers = [
       SliverPadding(
         padding: _kPagePadding,
         sliver: SliverList.list(
-          children: const [_ListSection()],
+          children: [
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                return _ListSection(todos: state.todos);
+              },
+            ),
+          ],
         ),
       ),
     ];
@@ -49,12 +60,16 @@ class _ListCreateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = AppColors.label.tertiary.resolveFrom(context);
     final textStyle = TextStyle(color: color);
+    final bloc = context.read<HomeBloc>();
 
     return CustomListTile(
       title: Text('Новое', style: textStyle),
-      onTap: () {
-        final todo = TODO.create();
-        showTODOPage(context, todo);
+      onTap: () async {
+        final todo = await showTODOPage(context, Todo(text: ''));
+
+        if (todo != null) {
+          bloc.add(HomeTodoSave(todo: todo));
+        }
       },
     );
   }
@@ -65,8 +80,6 @@ class _ListSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const completeText = 'Выполнено — 5';
-
     final completeColor = AppColors.label.tertiary.resolveFrom(context);
     final showCompleteColor = AppColors.blue.resolveFrom(context);
 
@@ -79,24 +92,38 @@ class _ListSectionHeader extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          completeText,
-          style: completeStyle,
-        ),
-        Text(
-          'Показать',
-          style: showCompleteStyle,
-        ),
-      ],
+    return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) =>
+          previous.showAll != current.showAll ||
+          previous.todos.length != current.todos.length,
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Выполнено — ${state.todos.length}',
+              style: completeStyle,
+            ),
+            GestureDetector(
+              onTap: () => context
+                  .read<HomeBloc>()
+                  .add(HomeShowAllToggled(showAll: !state.showAll)),
+              child: Text(
+                !state.showAll ? 'Показать' : 'Скрыть',
+                style: showCompleteStyle,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
 
 class _ListSection extends StatefulWidget {
-  const _ListSection();
+  const _ListSection({required this.todos});
+
+  final List<Todo> todos;
 
   @override
   State<_ListSection> createState() => _ListSectionState();
@@ -110,7 +137,7 @@ class _ListSectionState extends State<_ListSection> {
   void initState() {
     super.initState();
 
-    logger = Logger('HomePageLogger');
+    logger = Logger('HomeViewLogger');
     removedItemsUid = {};
   }
 
@@ -122,21 +149,7 @@ class _ListSectionState extends State<_ListSection> {
     final bottomPadding =
         MediaQuery.of(context).padding.bottom + _kTODOBottomPadding;
 
-    final rows = [
-      ..._todos.where((todo) => !removedItemsUid.contains(todo.uid)).map(
-            (todo) => _ListTile(
-              key: ValueKey(todo.uid),
-              todo: todo,
-              onRemove: () {
-                setState(() {
-                  removedItemsUid.add(todo.uid);
-                  logger.info('mark todo ${todo.uid} as removed');
-                });
-              },
-            ),
-          ),
-      _ListCreateTile(),
-    ];
+    // final rows = ;
 
     return Column(
       children: [
@@ -151,15 +164,34 @@ class _ListSectionState extends State<_ListSection> {
         ClipRRect(
           borderRadius: const BorderRadius.all(_kTODOBorderRadius),
           child: SlidableAutoCloseBehavior(
-            child: CupertinoListSection.insetGrouped(
-              separatorColor: separatorColor,
-              margin: EdgeInsets.zero,
-              dividerMargin: 0,
-              additionalDividerMargin: _kTODODividerMargin,
-              decoration: BoxDecoration(
-                color: backgroundColor,
-              ),
-              children: rows,
+            child: BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                print('object-objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject;');
+                print(state.todos);
+                return CupertinoListSection.insetGrouped(
+                  separatorColor: separatorColor,
+                  margin: EdgeInsets.zero,
+                  dividerMargin: 0,
+                  additionalDividerMargin: _kTODODividerMargin,
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                  ),
+                  children: [
+                    ...state.todos.map(
+                      (todo) => _ListTile(
+                        key: ValueKey(todo),
+                        todo: todo,
+                        onRemove: () {
+                          context
+                              .read<HomeBloc>()
+                              .add(HomeTodoDeleted(todo: todo));
+                        },
+                      ),
+                    ),
+                    _ListCreateTile(),
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -210,8 +242,20 @@ class _ListTile extends StatelessWidget {
     super.key,
   });
 
-  final TODO todo;
+  final Todo todo;
   final void Function()? onRemove;
+
+  void _openEdit(BuildContext context) {
+    final bloc = context.read<HomeBloc>();
+
+    showTODOPage(context, todo).then(
+      (todo) {
+        if (todo != null) {
+          bloc.add(HomeTodoSave(todo: todo));
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,9 +267,9 @@ class _ListTile extends StatelessWidget {
     }
 
     return CustomSlidableListTile(
-      key: ValueKey(todo.uid),
-      onTap: () => showTODOPage(context, todo),
-      title: Text(todo.title),
+      key: ValueKey(todo.id),
+      onTap: () => _openEdit(context),
+      title: Text(todo.text),
       subtitle: subtitle,
       leading: const RoundedCheckbox(),
       trailing: const CustomChevron(),
@@ -244,7 +288,7 @@ class _ListTile extends StatelessWidget {
           CustomIconSlidableAction(
             icon: CupertinoIcons.info_circle_fill,
             backgroundColor: AppColors.greyLight,
-            onPressed: (context) => showTODOPage(context, todo),
+            onPressed: _openEdit,
           ),
           CustomIconSlidableAction(
             icon: CupertinoIcons.trash_fill,

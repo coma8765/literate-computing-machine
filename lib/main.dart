@@ -1,49 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:logging/logging.dart';
+import 'package:remote_storage_todos_api/remote_storage_todos_api.dart';
+import 'package:sentry/sentry.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:sentry_logging/sentry_logging.dart';
+import 'package:todo/bootstrap.dart';
 import 'package:todo/src/core/config/config.dart';
-import 'package:todo/src/core/profiling/sentry.dart';
-import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/presentation/pages/home_page.dart';
+import 'package:todo/src/core/dio/dio.dart';
+import 'package:todo/src/core/logging/logging.dart';
 
 void main() async {
-  await initializeDateFormatting('ru', '');
-  await initConfig();
+  await runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await initConfig();
 
-  await includeSentry(
-    appRunner: () => runApp(const MyApp()),
+      await SentryFlutter.init(
+        (options) {
+          options
+            ..dsn = Config().sentryDsn
+            ..addIntegration(LoggingIntegration());
+        },
+      );
+
+      final dio = getDio();
+      final todosApi = RemoteStorageTodosApi(dio: dio);
+
+      await bootstrap(todosApi: todosApi);
+    },
+    (exception, stackTrace) async {
+      await Sentry.captureException(exception, stackTrace: stackTrace);
+    },
   );
-}
-
-const _defaultLocale = Locale('ru');
-const _supportedLocales = [
-  Locale('ru'),
-  Locale('en'),
-];
-
-const _localeDelegates = [
-  GlobalMaterialLocalizations.delegate,
-  GlobalCupertinoLocalizations.delegate,
-  DefaultWidgetsLocalizations.delegate,
-];
-
-
-/// An application.
-class MyApp extends StatelessWidget {
-  /// This class creates an instance of [StatelessWidget].
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoApp(
-      title: 'TODO',
-      color: AppTheme().scaffoldBackgroundColor,
-      theme: AppTheme(),
-      localizationsDelegates: _localeDelegates,
-      // home: const UtilsPage(),
-      home: const HomePage(),
-      supportedLocales: _supportedLocales,
-      locale: _defaultLocale,
-    );
-  }
 }
