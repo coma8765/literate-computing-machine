@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 part 'todo_model.g.dart';
 
 /// [TodoModel]'s importance.
-enum Importance {
+enum ImportanceModel {
   /// The `low` importance.
   low,
 
@@ -38,7 +38,7 @@ class TodoModel extends Equatable {
   /// {@macro todo_item}
   TodoModel({
     required this.text,
-    this.importance = Importance.basic,
+    this.importance = ImportanceModel.basic,
     this.deadline,
     this.done = false,
     this.color,
@@ -65,7 +65,7 @@ class TodoModel extends Equatable {
   final String text;
 
   /// The importance of `todo`
-  final Importance importance;
+  final ImportanceModel importance;
 
   /// The deadline of `todo`
   @TimestampConverter()
@@ -96,7 +96,7 @@ class TodoModel extends Equatable {
   TodoModel copyWith({
     String? id,
     String? text,
-    Importance? importance,
+    ImportanceModel? importance,
     DateTime? deadline,
     bool? done,
     String? color,
