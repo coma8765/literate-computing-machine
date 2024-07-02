@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todo.dart';
+part of 'todo_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Todo _$TodoFromJson(Map<String, dynamic> json) => Todo(
+TodoModel _$TodoModelFromJson(Map<String, dynamic> json) => TodoModel(
       text: json['text'] as String,
       importance:
           $enumDecodeNullable(_$ImportanceEnumMap, json['importance']) ??
@@ -23,7 +23,7 @@ Todo _$TodoFromJson(Map<String, dynamic> json) => Todo(
       id: json['id'] as String?,
     );
 
-Map<String, dynamic> _$TodoToJson(Todo instance) => <String, dynamic>{
+Map<String, dynamic> _$TodoModelToJson(TodoModel instance) => <String, dynamic>{
       'id': instance.id,
       'text': instance.text,
       'importance': _$ImportanceEnumMap[instance.importance]!,
@@ -54,15 +54,17 @@ Json? _$JsonConverterToJson<Json, Value>(
 ) =>
     value == null ? null : toJson(value);
 
-RevisedListTodo _$RevisedListTodoFromJson(Map<String, dynamic> json) =>
-    RevisedListTodo(
+RevisedListTodoModel _$RevisedListTodoModelFromJson(
+        Map<String, dynamic> json) =>
+    RevisedListTodoModel(
       list: (json['list'] as List<dynamic>)
-          .map((e) => Todo.fromJson(e as Map<String, dynamic>))
+          .map((e) => TodoModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       revision: (json['revision'] as num).toInt(),
     );
 
-Map<String, dynamic> _$RevisedListTodoToJson(RevisedListTodo instance) =>
+Map<String, dynamic> _$RevisedListTodoModelToJson(
+        RevisedListTodoModel instance) =>
     <String, dynamic>{
       'list': instance.list,
       'revision': instance.revision,

@@ -5,9 +5,9 @@ import 'package:todos_api/src/models/json_map.dart';
 import 'package:todos_api/src/models/utils/timestamp_to_datetime.dart';
 import 'package:uuid/uuid.dart';
 
-part 'todo.g.dart';
+part 'todo_model.g.dart';
 
-/// [Todo]'s importance.
+/// [TodoModel]'s importance.
 enum Importance {
   /// The `low` importance.
   low,
@@ -19,30 +19,6 @@ enum Importance {
   important,
 }
 
-extension ImportanceIndex on Importance {
-  int toIndex() {
-    switch (this) {
-      case (Importance.low):
-        return 0;
-      case (Importance.basic):
-        return 1;
-      case (Importance.important):
-        return 2;
-    }
-  }
-
-  static Importance fromIndex(int index) {
-    switch (index) {
-      case (0):
-        return Importance.low;
-      case (2):
-        return Importance.important;
-      default:
-        return Importance.basic;
-    }
-  }
-}
-
 /// {@template todo_item}
 /// A single `todo` item.
 ///
@@ -52,15 +28,15 @@ extension ImportanceIndex on Importance {
 /// If an [id] is provided, it cannot be empty. If no [id] is provided,
 /// one will be generated.
 ///
-/// [Todo]s are immutable and be copied using [copyWith], in addition
+/// [TodoModel]s are immutable and be copied using [copyWith], in addition
 /// to being serialized and deserialized using [toJson] and [fromJson]
 /// respectively.
 /// {@endtemplate}
 @immutable
 @JsonSerializable(fieldRename: FieldRename.snake)
-class Todo extends Equatable {
+class TodoModel extends Equatable {
   /// {@macro todo_item}
-  Todo({
+  TodoModel({
     required this.text,
     this.importance = Importance.basic,
     this.deadline,
@@ -100,7 +76,7 @@ class Todo extends Equatable {
   /// Defaults to `false`.
   final bool done;
 
-  /// Optional [Todo]'s color.
+  /// Optional [TodoModel]'s color.
   final String? color;
 
   ///
@@ -117,7 +93,7 @@ class Todo extends Equatable {
   /// Returns a copy of this `todo` with given values updated.
   ///
   /// {@macro todo_item}
-  Todo copyWith({
+  TodoModel copyWith({
     String? id,
     String? text,
     Importance? importance,
@@ -128,7 +104,7 @@ class Todo extends Equatable {
     DateTime? changedAt,
     String? lastUpdatedBy,
   }) {
-    return Todo(
+    return TodoModel(
       id: id ?? this.id,
       text: text ?? this.text,
       importance: importance ?? this.importance,
@@ -141,16 +117,16 @@ class Todo extends Equatable {
     );
   }
 
-  /// Deserializes the given [JsonMap] into a [Todo].
-  static Todo fromJson(JsonMap json) => _$TodoFromJson(json);
+  /// Deserializes the given [JsonMap] into a [TodoModel].
+  static TodoModel fromJson(JsonMap json) => _$TodoModelFromJson(json);
 
-  /// Converts this [Todo] to a [JsonMap].
-  JsonMap toJson() => _$TodoToJson(this);
+  /// Converts this [TodoModel] to a [JsonMap].
+  JsonMap toJson() => _$TodoModelToJson(this);
 
   @override
   String toString() {
     return '''
-Todo(
+TodoModel(
 \tid=$id,
 \ttext=$text,
 \tdeadline=$deadline,
@@ -179,34 +155,34 @@ Todo(
 ///
 /// Also contains [revision] identifier for control conflicts.
 ///
-/// [RevisedListTodo]'s are immutable and can only updated fully.
+/// [RevisedListTodoModel]'s are immutable and can only updated fully.
 /// {@endtemplate}
 @immutable
 @JsonSerializable()
-class RevisedListTodo extends Equatable {
+class RevisedListTodoModel extends Equatable {
   /// {@macro revised_list_todo}
-  const RevisedListTodo({
+  const RevisedListTodoModel({
     required this.list,
     required this.revision,
   });
 
-  /// List of [Todo]s.
-  final List<Todo> list;
+  /// List of [TodoModel]s.
+  final List<TodoModel> list;
 
   /// A revision of date storage.
   final int revision;
 
-  /// Deserializes the given [JsonMap] into a [RevisedListTodo].
-  static RevisedListTodo fromJson(JsonMap json) =>
-      _$RevisedListTodoFromJson(json);
+  /// Deserializes the given [JsonMap] into a [RevisedListTodoModel].
+  static RevisedListTodoModel fromJson(JsonMap json) =>
+      _$RevisedListTodoModelFromJson(json);
 
-  /// Converts this [RevisedListTodo] to a [JsonMap].
-  JsonMap toJson() => _$RevisedListTodoToJson(this);
+  /// Converts this [RevisedListTodoModel] to a [JsonMap].
+  JsonMap toJson() => _$RevisedListTodoModelToJson(this);
 
   @override
   String toString() {
     return '''
-RevisedListTodo(
+RevisedListTodoModel(
 \trevision=$revision,
 \tlist=$list,
 )''';

@@ -8,7 +8,7 @@ abstract class TodosApi {
   const TodosApi();
 
   /// Provides a [Stream] of all todos.
-  Stream<RevisedListTodo> getTodos();
+  Stream<RevisedListTodoModel> getTodos();
 
   /// Reload a todos.
   Future<void> reload();
@@ -16,7 +16,7 @@ abstract class TodosApi {
   /// Saves a [todo]
   ///
   /// If a [todo] with the same id already exists, it will be replaced.
-  Future<void> saveTodo(Todo todo);
+  Future<void> saveTodo(TodoModel todo);
 
   /// Deletes the `todo` with the given id.
   ///
@@ -28,14 +28,18 @@ abstract class TodosApi {
   Future<void> close();
 }
 
-/// Error thrown when a [Todo] with a given id is not found.
+/// Error thrown when a [TodoModel] with a given id is not found.
 class TodoNotFoundException implements Exception {}
 
 
-/// Error thrown when iterface for incorrect
+/// {@template internal_todos_api_exception}
+/// Error thrown when interface for incorrect
+/// {@endtemplate}
 class InternalTodosApiException implements Exception {
+  /// {@macro internal_todos_api_exception}
   const InternalTodosApiException(this.message);
 
+  /// Some text for a error description
   final String message;
 
   @override
