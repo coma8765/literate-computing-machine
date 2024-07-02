@@ -27,11 +27,12 @@ class RemoteStorageTodosApi extends TodosApi {
         maxDelay: const Duration(seconds: 15),
       );
 
-  late final _todoStreamController = BehaviorSubject<RevisedListTodo>.seeded(
-    const RevisedListTodo(list: [], revision: -1),
+  late final _todoStreamController =
+      BehaviorSubject<RevisedListTodoModel>.seeded(
+    const RevisedListTodoModel(list: [], revision: -1),
   );
 
-  Future<RevisedListTodo> _getValue() async {
+  Future<RevisedListTodoModel> _getValue() async {
     _logger.shout('remote-storage-todos-api: request data');
     final backOff = _exponentialBackOff();
 
@@ -59,14 +60,17 @@ class RemoteStorageTodosApi extends TodosApi {
       );
     }
 
-    final revisedListTodo = RevisedListTodo.fromJson(
+    final revisedListTodo = RevisedListTodoModel.fromJson(
       jsonDecode(response.data!) as Map<String, dynamic>,
     );
 
     return revisedListTodo;
   }
 
-  Future<RevisedListTodo> _setValue(List<Todo> todos, int revision) async {
+  Future<RevisedListTodoModel> _setValue(
+    List<TodoModel> todos,
+    int revision,
+  ) async {
     _logger.shout('update data, old revision $revision');
 
     final backOff = _exponentialBackOff();
@@ -105,7 +109,7 @@ class RemoteStorageTodosApi extends TodosApi {
       throw const InternalTodosApiException('invalid server response');
     }
 
-    final revisedListTodo = RevisedListTodo.fromJson(
+    final revisedListTodo = RevisedListTodoModel.fromJson(
       jsonDecode(response.data!) as Map<String, dynamic>,
     );
 
@@ -153,11 +157,11 @@ class RemoteStorageTodosApi extends TodosApi {
   }
 
   @override
-  Stream<RevisedListTodo> getTodos() =>
+  Stream<RevisedListTodoModel> getTodos() =>
       _todoStreamController.asBroadcastStream();
 
   @override
-  Future<void> saveTodo(Todo todo) async {
+  Future<void> saveTodo(TodoModel todo) async {
     _logger.shout('save todo $todo');
 
     final todos = [..._todoStreamController.value.list];
