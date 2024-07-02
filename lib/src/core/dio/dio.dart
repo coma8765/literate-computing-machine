@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:todo/src/core/config/config.dart';
 
 Dio getDio() {
-  final baseUrl = Config().apiUrl ?? '';
+  final baseUrl = Config().apiUrl;
   final headers = {
     HttpHeaders.authorizationHeader: Config().apiToken,
     'X-Generate-Fails': 80,

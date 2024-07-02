@@ -1,15 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:logging/logging.dart';
 import 'package:remote_storage_todos_api/remote_storage_todos_api.dart';
-import 'package:sentry/sentry.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:todo/bootstrap.dart';
 import 'package:todo/src/core/config/config.dart';
 import 'package:todo/src/core/dio/dio.dart';
-import 'package:todo/src/core/logging/logging.dart';
 
 void main() async {
   await runZonedGuarded(

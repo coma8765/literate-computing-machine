@@ -15,10 +15,10 @@ analyzer:
     prefer_int_literals: ignore
   language:
     strict-casts: true
-
-  exclude:
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
+#
+#  exclude:
+#    - "**/*.g.dart"
+#    - "**/*.freezed.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the

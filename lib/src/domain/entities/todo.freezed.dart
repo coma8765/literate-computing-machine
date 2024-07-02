@@ -21,6 +21,7 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Todo {
   String get id => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   Importance get importance => throw _privateConstructorUsedError;
   DateTime? get deadline => throw _privateConstructorUsedError;
@@ -36,7 +37,11 @@ abstract class $TodoCopyWith<$Res> {
       _$TodoCopyWithImpl<$Res, Todo>;
   @useResult
   $Res call(
-      {String id, String text, Importance importance, DateTime? deadline});
+      {String id,
+      bool done,
+      String text,
+      Importance importance,
+      DateTime? deadline});
 }
 
 /// @nodoc
@@ -53,6 +58,7 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
   @override
   $Res call({
     Object? id = null,
+    Object? done = null,
     Object? text = null,
     Object? importance = null,
     Object? deadline = freezed,
@@ -62,6 +68,10 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -86,7 +96,11 @@ abstract class _$$TodoImplCopyWith<$Res> implements $TodoCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id, String text, Importance importance, DateTime? deadline});
+      {String id,
+      bool done,
+      String text,
+      Importance importance,
+      DateTime? deadline});
 }
 
 /// @nodoc
@@ -100,6 +114,7 @@ class __$$TodoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? done = null,
     Object? text = null,
     Object? importance = null,
     Object? deadline = freezed,
@@ -109,6 +124,10 @@ class __$$TodoImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -127,18 +146,23 @@ class __$$TodoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TodoImpl implements _Todo {
+class _$TodoImpl extends _Todo {
   _$TodoImpl(
       {required this.id,
+      this.done = false,
       this.text = '',
       this.importance = Importance.basic,
-      this.deadline});
+      this.deadline})
+      : super._();
 
   factory _$TodoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TodoImplFromJson(json);
 
   @override
   final String id;
+  @override
+  @JsonKey()
+  final bool done;
   @override
   @JsonKey()
   final String text;
@@ -150,7 +174,7 @@ class _$TodoImpl implements _Todo {
 
   @override
   String toString() {
-    return 'Todo(id: $id, text: $text, importance: $importance, deadline: $deadline)';
+    return 'Todo(id: $id, done: $done, text: $text, importance: $importance, deadline: $deadline)';
   }
 
   @override
@@ -159,6 +183,7 @@ class _$TodoImpl implements _Todo {
         (other.runtimeType == runtimeType &&
             other is _$TodoImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.done, done) || other.done == done) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.importance, importance) ||
                 other.importance == importance) &&
@@ -168,7 +193,8 @@ class _$TodoImpl implements _Todo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, importance, deadline);
+  int get hashCode =>
+      Object.hash(runtimeType, id, done, text, importance, deadline);
 
   @JsonKey(ignore: true)
   @override
@@ -184,17 +210,21 @@ class _$TodoImpl implements _Todo {
   }
 }
 
-abstract class _Todo implements Todo {
+abstract class _Todo extends Todo {
   factory _Todo(
       {required final String id,
+      final bool done,
       final String text,
       final Importance importance,
       final DateTime? deadline}) = _$TodoImpl;
+  _Todo._() : super._();
 
   factory _Todo.fromJson(Map<String, dynamic> json) = _$TodoImpl.fromJson;
 
   @override
   String get id;
+  @override
+  bool get done;
   @override
   String get text;
   @override

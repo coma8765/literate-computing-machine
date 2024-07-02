@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/src/domain/domain.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 part 'home_state.dart';
@@ -9,8 +10,9 @@ part 'home_state.dart';
 part 'home_event.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc({required TodosRepository todosRepository})
-      : _todosRepository = todosRepository,
+  HomeBloc({
+    required TodosRepository todosRepository,
+  })  : _todosRepository = todosRepository,
         super(const HomeState()) {
     on<HomeSubscriptionRequested>(_onSubscriptionRequested);
     on<HomeShowAllToggled>(_onHomeShowAllToggled);
@@ -27,11 +29,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(status: () => HomeStatus.loading));
 
-    await emit.forEach<RevisedListTodo>(
+    await emit.forEach<RevisedListTodoModel>(
       _todosRepository.getTodos(),
       onData: (revisedListTodo) => state.copyWith(
         status: () => HomeStatus.success,
-        todos: () => revisedListTodo.list,
+        todos: () => Todo.fromModelList(revisedListTodo.list),
       ),
       onError: (_, __) => state.copyWith(
         status: () => HomeStatus.failure,
@@ -73,7 +75,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       done: event.isDone,
     );
 
-    _todosRepository.saveTodo(todo);
+    _todosRepository.saveTodo(todo.toModel());
 
     emit(
       state.copyWith(
@@ -104,6 +106,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
 
-    _todosRepository.saveTodo(event.todo);
+    _todosRepository.saveTodo(event.todo.toModel());
   }
 }

@@ -39,7 +39,7 @@ final class HomeTodoSave extends HomeEvent {
   final Todo todo;
 
   @override
-  List<Object?> get props => todo.props;
+  List<Object?> get props => [todo];
 }
 
 final class HomeTodoDoneToggled extends HomeEvent {

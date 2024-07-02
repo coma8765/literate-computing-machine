@@ -8,6 +8,7 @@ part of 'todo.dart';
 
 _$TodoImpl _$$TodoImplFromJson(Map<String, dynamic> json) => _$TodoImpl(
       id: json['id'] as String,
+      done: json['done'] as bool? ?? false,
       text: json['text'] as String? ?? '',
       importance:
           $enumDecodeNullable(_$ImportanceEnumMap, json['importance']) ??
@@ -20,6 +21,7 @@ _$TodoImpl _$$TodoImplFromJson(Map<String, dynamic> json) => _$TodoImpl(
 Map<String, dynamic> _$$TodoImplToJson(_$TodoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'done': instance.done,
       'text': instance.text,
       'importance': _$ImportanceEnumMap[instance.importance]!,
       'deadline': instance.deadline?.toIso8601String(),

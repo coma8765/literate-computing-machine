@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/domain/domain.dart';
-import 'package:todo/src/presentation/pages/todo_page/cubit/cubit.dart';
-import 'package:todo/src/presentation/pages/todo_page/view/description_field.dart';
-import 'package:todo/src/presentation/pages/todo_page/view/switches.dart';
+import 'package:todo/src/presentation/bloc/bloc.dart';
+import 'package:todo/src/presentation/pages/edit_todo_page/widgets/widgets.dart';
 import 'package:todo/src/presentation/widgets/buttons/buttons.dart';
-import 'package:todos_api/todos_api.dart';
 import 'package:todos_repository/todos_repository.dart';
 
 const _pageBorderRadius = BorderRadius.vertical(top: Radius.circular(12.0));
@@ -50,19 +47,15 @@ class TODOView extends StatelessWidget {
               padding: _kNavBarPadding,
               middle: const Text('Дело'),
               leading: const NavigationCancelButton(),
-              trailing: SaveButton(
-                onPressed: () {
-                  final editState = context.read<TodoCubit>().state;
-
-                  final todo = editState.initialTodo.copyWith(
-                      text: editState.text,
-                      importance: editState.importance,
-                      deadline: editState.deadline,
+              trailing: BlocBuilder<EditTodoCubit, EditTodoState>(
+                builder: (context, state) {
+                  return SaveButton(
+                    onPressed: state.todo != state.initialTodo ? () {
+                      context.read<EditTodoCubit>().saveAction();
+                    } : null,
+                    padding: EdgeInsetsDirectional.zero,
                   );
-
-                  Navigator.of(context).pop(todo);
                 },
-                padding: EdgeInsetsDirectional.zero,
               ),
               // padding: EdgeInsetsDirectional.zero,
               backgroundColor: backgroundColor,
@@ -86,7 +79,7 @@ class _TODOEdit extends StatelessWidget {
   Widget build(BuildContext context) {
     final backgroundBackground = AppColors.back.secondary.resolveFrom(context);
 
-    final cubit = context.read<TodoCubit>();
+    final cubit = context.read<EditTodoCubit>();
 
     final fields = [
       CustomTextField(

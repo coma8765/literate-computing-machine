@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo/src/presentation/pages/todo_page/cubit/cubit.dart';
-import 'package:todo/src/presentation/pages/todo_page/view/todo_view.dart';
-import 'package:todos_api/todos_api.dart';
+import 'package:todo/src/domain/domain.dart';
+import 'package:todo/src/presentation/bloc/bloc.dart';
+
+import 'package:todo/src/presentation/pages/edit_todo_page/edit_todo_view.dart';
+import 'package:todos_repository/todos_repository.dart';
 
 /// Show a pop-up window for some TODO
 Future<Todo?> showTODOPage(
@@ -28,7 +30,10 @@ class TodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TodoCubit(initialTodo: todo),
+      create: (_) => EditTodoCubit(
+        initialTodo: todo,
+        todosRepository: context.read<TodosRepository>(),
+      ),
       child: const TODOView(),
     );
   }

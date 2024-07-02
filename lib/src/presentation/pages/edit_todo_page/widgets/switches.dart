@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo/bootstrap.dart';
 import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/presentation/pages/todo_page/cubit/cubit.dart';
+import 'package:todo/src/domain/domain.dart';
+import 'package:todo/src/presentation/bloc/bloc.dart';
 import 'package:todo/src/presentation/widgets/date_picker/date_picker.dart';
 import 'package:todo/src/presentation/widgets/multi_toggle_switch/multi_toggle_switch.dart';
 import 'package:todo/src/presentation/widgets/toggle_switch/toggle_switch.dart';
-import 'package:todos_api/todos_api.dart';
 
 const _switchTileTitlePadding = EdgeInsets.symmetric(
   horizontal: 16.0,
@@ -55,7 +54,7 @@ class _ImportantSwitchTile extends _SwitchTile {
 
   @override
   Widget buildSwitch(BuildContext context) {
-    return BlocBuilder<TodoCubit, TodoState>(
+    return BlocBuilder<EditTodoCubit, EditTodoState>(
       buildWhen: (prev, curr) => prev.importance != curr.importance,
       builder: (context, state) {
         final index = Importance.values.indexOf(state.importance);
@@ -66,7 +65,9 @@ class _ImportantSwitchTile extends _SwitchTile {
           itemCount: 3,
           defaultItem: index,
           onChange: (index) {
-            context.read<TodoCubit>().setImportance(Importance.values[index]);
+            context
+                .read<EditTodoCubit>()
+                .setImportance(Importance.values[index]);
           },
           itemBuilder: ({
             required BuildContext context,
@@ -193,7 +194,7 @@ class Switches extends StatelessWidget {
     ];
 
     final separatorColor = AppColors.support.separator.resolveFrom(context);
-    final todoCubit = context.read<TodoCubit>();
+    final todoCubit = context.read<EditTodoCubit>();
 
     return BlocProvider(
       create: (_) => _CalendarCubit()

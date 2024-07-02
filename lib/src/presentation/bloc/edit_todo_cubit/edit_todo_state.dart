@@ -1,12 +1,12 @@
-part of 'todo_cubit.dart';
+part of 'edit_todo_cubit.dart';
 
-class TodoState extends Equatable {
-  factory TodoState({
+class EditTodoState extends Equatable {
+  factory EditTodoState({
     Todo? todo,
   }) {
-    final obj = todo ?? Todo(text: '');
+    final obj = todo ?? Todo.create();
 
-    return TodoState._(
+    return EditTodoState._(
       initialTodo: obj,
       text: obj.text,
       importance: obj.importance,
@@ -15,7 +15,7 @@ class TodoState extends Equatable {
     );
   }
 
-  const TodoState._({
+  const EditTodoState._({
     required this.initialTodo,
     required this.text,
     required this.importance,
@@ -30,15 +30,16 @@ class TodoState extends Equatable {
   final DateTime? deadline;
   final bool done;
 
-  TodoState copyWith({
+  EditTodoState copyWith({
+    Todo? initialTodo,
     String? text,
     Importance? importance,
     DateTime? deadline,
     bool? done,
     bool emptyDeadline = false,
   }) {
-    return TodoState._(
-      initialTodo: initialTodo,
+    return EditTodoState._(
+      initialTodo: initialTodo ?? this.initialTodo,
       text: text ?? this.text,
       importance: importance ?? this.importance,
       deadline: emptyDeadline ? null : deadline ?? this.deadline,
@@ -46,6 +47,12 @@ class TodoState extends Equatable {
     );
   }
 
+  Todo get todo => initialTodo.copyWith(
+        text: text,
+        importance: importance,
+        deadline: deadline,
+      );
+
   @override
-  List<Object?> get props => [initialTodo.id, text, importance, deadline, done];
+  List<Object?> get props => [initialTodo, text, importance, deadline, done];
 }

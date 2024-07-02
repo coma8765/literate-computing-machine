@@ -4,11 +4,10 @@ import 'package:flutter_slidable/flutter_slidable.dart'
     show DismissiblePane, SlidableAutoCloseBehavior;
 import 'package:logging/logging.dart';
 import 'package:todo/src/core/theme/theme.dart';
-import 'package:todo/src/domain/entities/fake/todo_fake.dart';
-import 'package:todo/src/presentation/pages/home_page/bloc/home_bloc.dart';
-import 'package:todo/src/presentation/pages/todo_page/todo_page.dart';
+import 'package:todo/src/domain/domain.dart';
+import 'package:todo/src/presentation/bloc/bloc.dart';
+import 'package:todo/src/presentation/pages/edit_todo_page/edit_todo_page.dart';
 import 'package:todo/src/presentation/widgets/widgets.dart';
-import 'package:todos_api/src/models/todo.dart' show Todo;
 
 const _kPageTitle = 'Мои дела';
 const _kPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
@@ -24,8 +23,6 @@ const _kTODOBorderRadius = Radius.circular(16.0);
 const _kTODODividerMargin = 52.0;
 const _kTODOBottomPadding = 78.0;
 
-final _todos = TODOFactory().generateFakeList(length: 10);
-
 /// An Home Page of Application
 class HomeView extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
@@ -33,9 +30,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<HomeBloc>().stream.listen(print);
-
     const largeTitle = Text(_kPageTitle);
+
     final slivers = [
       SliverPadding(
         padding: _kPagePadding,
@@ -65,7 +61,7 @@ class _ListCreateTile extends StatelessWidget {
     return CustomListTile(
       title: Text('Новое', style: textStyle),
       onTap: () async {
-        final todo = await showTODOPage(context, Todo(text: ''));
+        final todo = await showTODOPage(context, Todo.create());
 
         if (todo != null) {
           bloc.add(HomeTodoSave(todo: todo));
@@ -166,8 +162,6 @@ class _ListSectionState extends State<_ListSection> {
           child: SlidableAutoCloseBehavior(
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
-                print('object-objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject;');
-                print(state.todos);
                 return CupertinoListSection.insetGrouped(
                   separatorColor: separatorColor,
                   margin: EdgeInsets.zero,
