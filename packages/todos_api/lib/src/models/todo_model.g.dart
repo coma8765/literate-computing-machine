@@ -9,8 +9,8 @@ part of 'todo_model.dart';
 TodoModel _$TodoModelFromJson(Map<String, dynamic> json) => TodoModel(
       text: json['text'] as String,
       importance:
-          $enumDecodeNullable(_$ImportanceEnumMap, json['importance']) ??
-              Importance.basic,
+          $enumDecodeNullable(_$ImportanceModelEnumMap, json['importance']) ??
+              ImportanceModel.basic,
       deadline: _$JsonConverterFromJson<int, DateTime>(
           json['deadline'], const TimestampConverter().fromJson),
       done: json['done'] as bool? ?? false,
@@ -26,7 +26,7 @@ TodoModel _$TodoModelFromJson(Map<String, dynamic> json) => TodoModel(
 Map<String, dynamic> _$TodoModelToJson(TodoModel instance) => <String, dynamic>{
       'id': instance.id,
       'text': instance.text,
-      'importance': _$ImportanceEnumMap[instance.importance]!,
+      'importance': _$ImportanceModelEnumMap[instance.importance]!,
       'deadline': _$JsonConverterToJson<int, DateTime>(
           instance.deadline, const TimestampConverter().toJson),
       'done': instance.done,
@@ -36,10 +36,10 @@ Map<String, dynamic> _$TodoModelToJson(TodoModel instance) => <String, dynamic>{
       'last_updated_by': instance.lastUpdatedBy,
     };
 
-const _$ImportanceEnumMap = {
-  Importance.low: 'low',
-  Importance.basic: 'basic',
-  Importance.important: 'important',
+const _$ImportanceModelEnumMap = {
+  ImportanceModel.low: 'low',
+  ImportanceModel.basic: 'basic',
+  ImportanceModel.important: 'important',
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

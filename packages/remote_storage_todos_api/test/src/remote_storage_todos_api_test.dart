@@ -65,7 +65,7 @@ void main() {
     test('can be update item', () async {
       final updatedTodo = todo.copyWith(
         text: 'updated',
-        importance: Importance.important,
+        importance: ImportanceModel.important,
         done: true,
       );
 
