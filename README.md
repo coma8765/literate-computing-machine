@@ -30,6 +30,7 @@
 Тут [релиз](https://github.com/coma8765/literate-computing-machine/releases/tag/part-03).
 
 ## Screenshots
+![simulator_screenshot_B42BD8EE-FAD7-40D4-92CC-E06F97FB71A6.png](docs/images/simulator_screenshot_B42BD8EE-FAD7-40D4-92CC-E06F97FB71A6.png)
 ![home-page-screen-light.png](docs/images/home-page-screen-light.png)
 ![home-page-screen-light.png](docs/images/home-page-screen-dark.png)
 ![todo-page-screen-dark.png](docs/images/todo-page-screen-dark.png)
