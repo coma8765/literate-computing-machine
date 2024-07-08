@@ -58,9 +58,7 @@ class ColorPalette extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformBrightness = MediaQuery
-        .of(context)
-        .platformBrightness;
+    final platformBrightness = MediaQuery.of(context).platformBrightness;
 
     return CupertinoPageScaffold(
       backgroundColor: const Color(0xffe2e2e2),

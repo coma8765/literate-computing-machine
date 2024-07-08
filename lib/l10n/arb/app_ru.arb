@@ -1,0 +1,22 @@
+{
+  "@@locale": "ru",
+  "homePageTitle": "Мои дела",
+  "createTodo": "Новое",
+  "showAllTask": "Показать",
+  "hideAllTask": "Скрыть",
+  "completeCountText": "Выполнено - {countCompleted}",
+	"@completeCountText": {
+		"placeholders": {
+			"countCompleted": {}
+		}
+	},
+	"editPageTitle": "Дело",
+	"saveText": "Сохранить",
+	"cancelText": "Отменить",
+	"removeText": "Удалить",
+	"importantSwitchText": "Важность",
+	"importantSwitchTileNoText": "Нет",
+	"deadlineSwitchText": "Сделать до",
+	"editTodoTextFieldPlaceholder": "Что надо сделать",
+	"a": ""
+}

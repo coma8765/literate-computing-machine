@@ -15,6 +15,16 @@ final class HomeState extends Equatable {
   final List<Todo> todos;
   final int updates;
 
+  List<Todo> get filteredTodos {
+    if (showAll) return todos;
+
+    return todos.where((t) => !t.done).toList();
+  }
+
+  int get countCompletedTodos {
+    return todos.where((t) => t.done).length;
+  }
+
   HomeState copyWith({
     HomeStatus Function()? status,
     bool Function()? showAll,

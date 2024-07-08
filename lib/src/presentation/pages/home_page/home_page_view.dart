@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart'
     show DismissiblePane, SlidableAutoCloseBehavior;
 import 'package:logging/logging.dart';
+import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
 import 'package:todo/src/presentation/pages/edit_todo_page/edit_todo_page.dart';
 import 'package:todo/src/presentation/widgets/widgets.dart';
+import 'package:uuid/uuid.dart';
 
-const _kPageTitle = 'Мои дела';
 const _kPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
 
 const _kTODOHeaderPadding = EdgeInsets.symmetric(
@@ -30,19 +31,13 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const largeTitle = Text(_kPageTitle);
+    final largeTitle = Text(context.l10n.homePageTitle);
 
     final slivers = [
       SliverPadding(
         padding: _kPagePadding,
         sliver: SliverList.list(
-          children: [
-            BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                return _ListSection(todos: state.todos);
-              },
-            ),
-          ],
+          children: const [_ListSection()],
         ),
       ),
     ];
@@ -56,17 +51,10 @@ class _ListCreateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = AppColors.label.tertiary.resolveFrom(context);
     final textStyle = TextStyle(color: color);
-    final bloc = context.read<HomeBloc>();
 
     return CustomListTile(
-      title: Text('Новое', style: textStyle),
-      onTap: () async {
-        final todo = await showTODOPage(context, Todo.create());
-
-        if (todo != null) {
-          bloc.add(HomeTodoSave(todo: todo));
-        }
-      },
+      title: Text(context.l10n.createTodo, style: textStyle),
+      onTap: () => showTODOPage(context, const Uuid().v4()),
     );
   }
 }
@@ -88,38 +76,41 @@ class _ListSectionHeader extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
 
-    return BlocBuilder<HomeBloc, HomeState>(
-      buildWhen: (previous, current) =>
-          previous.showAll != current.showAll ||
-          previous.todos.length != current.todos.length,
-      builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Выполнено — ${state.todos.length}',
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        BlocBuilder<HomeBloc, HomeState>(
+          buildWhen: (a, b) => a.countCompletedTodos != b.countCompletedTodos,
+          builder: (context, state) {
+            return Text(
+              context.l10n.completeCountText(state.countCompletedTodos),
               style: completeStyle,
-            ),
-            GestureDetector(
+            );
+          },
+        ),
+        BlocBuilder<HomeBloc, HomeState>(
+          buildWhen: (a, b) => a.showAll != b.showAll,
+          builder: (context, state) {
+            return GestureDetector(
               onTap: () => context
                   .read<HomeBloc>()
                   .add(HomeShowAllToggled(showAll: !state.showAll)),
               child: Text(
-                !state.showAll ? 'Показать' : 'Скрыть',
+                !state.showAll
+                    ? context.l10n.showAllTask
+                    : context.l10n.hideAllTask,
                 style: showCompleteStyle,
               ),
-            ),
-          ],
-        );
-      },
+            );
+          },
+        ),
+      ],
     );
   }
 }
 
 class _ListSection extends StatefulWidget {
-  const _ListSection({required this.todos});
-
-  final List<Todo> todos;
+  const _ListSection();
 
   @override
   State<_ListSection> createState() => _ListSectionState();
@@ -171,7 +162,7 @@ class _ListSectionState extends State<_ListSection> {
                     color: backgroundColor,
                   ),
                   children: [
-                    ...state.todos.map(
+                    ...state.filteredTodos.map(
                       (todo) => _ListTile(
                         key: ValueKey(todo),
                         todo: todo,
@@ -240,15 +231,7 @@ class _ListTile extends StatelessWidget {
   final void Function()? onRemove;
 
   void _openEdit(BuildContext context) {
-    final bloc = context.read<HomeBloc>();
-
-    showTODOPage(context, todo).then(
-      (todo) {
-        if (todo != null) {
-          bloc.add(HomeTodoSave(todo: todo));
-        }
-      },
-    );
+    showTODOPage(context, todo.id);
   }
 
   @override
@@ -263,16 +246,45 @@ class _ListTile extends StatelessWidget {
     return CustomSlidableListTile(
       key: ValueKey(todo.id),
       onTap: () => _openEdit(context),
-      title: Text(todo.text),
+      title: Text(
+        todo.text,
+        style: TextStyle(
+          decoration: todo.done ? TextDecoration.lineThrough : null,
+        ),
+      ),
       subtitle: subtitle,
-      leading: const RoundedCheckbox(),
+      leading: RoundedCheckbox(
+        value: todo.done,
+        borderColor: todo.importance == Importance.high ? AppColors.red : null,
+        inactiveColor: todo.importance == Importance.high
+            ? AppColors.red.withAlpha(25)
+            : null,
+        onChange: (value) {
+          if (value == null) return;
+
+          context.read<HomeBloc>().add(
+                HomeTodoDoneToggled(
+                  todo: todo,
+                  isDone: value,
+                ),
+              );
+        },
+      ),
       trailing: const CustomChevron(),
       onRemove: onRemove,
       startActionPane: CustomActionPane(
-        children: const [
+        children: [
           CustomIconSlidableAction(
             icon: CupertinoIcons.check_mark_circled_solid,
             backgroundColor: AppColors.green,
+            onPressed: (_) {
+              context.read<HomeBloc>().add(
+                    HomeTodoDoneToggled(
+                      todo: todo,
+                      isDone: !todo.done,
+                    ),
+                  );
+            },
           ),
         ],
       ),

@@ -22,6 +22,8 @@ class TodoFactory extends ModelFactory<Todo> {
       text: text,
       importance: importance,
       deadline: deadline,
+      createdAt: DateTime.now().copyWith(microsecond: 0),
+      changedAt: DateTime.now().copyWith(microsecond: 0),
     );
   }
 

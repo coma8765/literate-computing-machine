@@ -29,11 +29,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(status: () => HomeStatus.loading));
 
-    await emit.forEach<RevisedListTodoModel>(
+    await emit.forEach<List<TodoModel>>(
       _todosRepository.getTodos(),
-      onData: (revisedListTodo) => state.copyWith(
+      onData: (todos) => state.copyWith(
         status: () => HomeStatus.success,
-        todos: () => Todo.fromModelList(revisedListTodo.list),
+        todos: () => Todo.fromModelList(todos),
       ),
       onError: (_, __) => state.copyWith(
         status: () => HomeStatus.failure,
@@ -73,6 +73,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) {
     final todo = event.todo.copyWith(
       done: event.isDone,
+      changedAt: DateTime.now().copyWith(microsecond: 0),
     );
 
     _todosRepository.saveTodo(todo.toModel());
@@ -82,7 +83,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         todos: () {
           final index = state.todos.indexWhere((t) => t.id == event.todo.id);
 
-          final todos = state.todos;
+          final todos = [...state.todos];
           todos[index] = todo;
           return todos;
         },

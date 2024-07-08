@@ -7,9 +7,9 @@ environment:
   sdk: ^3.4.0
 
 dependencies:
+  logging: ^1.2.0
   todos_api:
     path: ../todos_api
-  logging: ^1.2.0
 
 dev_dependencies:
   mocktail: ^1.0.3

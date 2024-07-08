@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:todo/src/presentation/widgets/buttons/buttons.dart';
 
-
 const _popupBorderRadius = BorderRadius.only(
   topLeft: Radius.circular(16.0),
   topRight: Radius.circular(16.0),
@@ -21,7 +20,6 @@ Future<DateTime?> iOSDatePick(BuildContext context) {
 class _IOSDatePicker extends StatefulWidget {
   const _IOSDatePicker();
 
-
   @override
   State<StatefulWidget> createState() => _IOSDatePickerState();
 }
@@ -36,11 +34,11 @@ class _IOSDatePickerState extends State<_IOSDatePicker> {
     startDate = DateTime.now();
     date = startDate;
   }
-  
+
   void _complete() {
     Navigator.of(context).pop(date);
   }
-  
+
   void _updateDate(DateTime newDate) {
     setState(() {
       date = newDate;
@@ -51,7 +49,7 @@ class _IOSDatePickerState extends State<_IOSDatePicker> {
   Widget build(BuildContext context) {
     final backgroundColor = CupertinoTheme.of(context).scaffoldBackgroundColor;
     final popupHeight = MediaQuery.sizeOf(context).height * _pageHeightPercent;
-    
+
     return SafeArea(
       bottom: false,
       child: SizedBox(

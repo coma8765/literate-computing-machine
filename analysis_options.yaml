@@ -1,3 +1,4 @@
+
 # This file configures the analyzer, which statically analyzes Dart code to
 # check for errors, warnings, and lints.
 #
@@ -15,10 +16,10 @@ analyzer:
     prefer_int_literals: ignore
   language:
     strict-casts: true
-#
-#  exclude:
-#    - "**/*.g.dart"
-#    - "**/*.freezed.dart"
+
+  exclude:
+    - "lib/**.g.dart"
+    - "lib/**.freezed.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the

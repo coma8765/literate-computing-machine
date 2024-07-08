@@ -11,7 +11,11 @@ class RoundedCheckbox extends StatelessWidget {
     this.width = _kDefaultWidth,
     this.borderWidth = _kDefaultBorderWidth,
     this.onChange,
+    this.value = false,
     super.key,
+    this.borderColor,
+    this.activeColor,
+    this.inactiveColor,
   });
 
   /// Width of RoundedCheckbox.
@@ -24,22 +28,55 @@ class RoundedCheckbox extends StatelessWidget {
   // ignore: avoid_positional_boolean_parameters
   final void Function(bool?)? onChange;
 
+  /// Value of checkbox
+  final bool value;
+
+  /// A color of border
+  final Color? borderColor;
+
+  /// A background color of active mode
+  final Color? activeColor;
+
+  /// A background color of inactive mode
+  final Color? inactiveColor;
+
   @override
   Widget build(BuildContext context) {
-    final separatorColor = AppColors.support.separator.resolveFrom(context);
+    final borderColor = CupertinoDynamicColor.resolve(
+      this.borderColor ?? AppColors.support.separator,
+      context,
+    );
+
+    final activeColor = CupertinoDynamicColor.resolve(
+      this.activeColor ?? AppColors.green,
+      context,
+    );
+
+    final inactiveColor = CupertinoDynamicColor.resolve(
+      this.inactiveColor ?? const Color(0x00000000),
+      context,
+    );
 
     final scale = width / CupertinoCheckbox.width;
     final borderWidthScaled = borderWidth / scale;
 
-    return Transform.scale(
-      scale: scale,
-      child: CupertinoCheckbox(
-        value: false,
-        onChanged: onChange,
-        shape: const CircleBorder(),
-        side: BorderSide(
-          color: separatorColor,
-          width: borderWidthScaled,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(100)),
+        color: value ? null : inactiveColor,
+      ),
+      child: Transform.scale(
+        scale: scale,
+        child: CupertinoCheckbox(
+          activeColor: activeColor,
+          inactiveColor: inactiveColor,
+          value: value,
+          onChanged: onChange,
+          shape: const CircleBorder(),
+          side: BorderSide(
+            color: value ? activeColor : borderColor,
+            width: borderWidthScaled,
+          ),
         ),
       ),
     );

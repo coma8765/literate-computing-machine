@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 
 const _text = 'Отменить';
@@ -24,12 +25,11 @@ class CancelButton extends StatelessWidget {
       color: textColor,
     );
 
-
     return CupertinoButton(
       padding: EdgeInsetsDirectional.zero,
       onPressed: () => onPressed?.call(context),
       child: Text(
-        _text,
+        context.l10n.cancelText,
         style: textStyle,
       ),
     );
@@ -42,8 +42,8 @@ class NavigationCancelButton extends CancelButton {
   const NavigationCancelButton({
     super.key,
   }) : super(
-    onPressed: _navigationBack,
-  );
+          onPressed: _navigationBack,
+        );
 
   static void _navigationBack(BuildContext context) {
     Navigator.of(context).pop();

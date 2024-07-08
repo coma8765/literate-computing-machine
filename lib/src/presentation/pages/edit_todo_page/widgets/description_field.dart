@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 
-const _placeholderText = 'Что надо сделать?';
 const _maxLines = 20;
 const _minHeight = 120.0;
 const _textPadding = EdgeInsets.all(16.0);
@@ -47,7 +47,7 @@ class CustomTextField extends StatelessWidget {
           maxLines: _maxLines,
           cursorColor: cursorColor,
           minLines: 1,
-          placeholder: _placeholderText,
+          placeholder: context.l10n.editTodoTextFieldPlaceholder,
           textAlignVertical: TextAlignVertical.top,
           onChanged: onChanged,
           // onSaved: (text) => onChanged?.call(text ?? ''),

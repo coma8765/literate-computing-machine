@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
@@ -55,9 +56,13 @@ class _ImportantSwitchTile extends _SwitchTile {
   @override
   Widget buildSwitch(BuildContext context) {
     return BlocBuilder<EditTodoCubit, EditTodoState>(
-      buildWhen: (prev, curr) => prev.importance != curr.importance,
+      buildWhen: (prev, curr) =>
+          prev is EditTodoEditableState &&
+          curr is EditTodoEditableState &&
+          prev.importance != curr.importance,
       builder: (context, state) {
-        final index = Importance.values.indexOf(state.importance);
+        final index = Importance.values
+            .indexOf((state as EditTodoEditableState).importance);
 
         return MultiToggleSwitch(
           itemHeight: 31.5,
@@ -89,7 +94,7 @@ class _ImportantSwitchTile extends _SwitchTile {
                 );
 
                 return Text(
-                  'нет',
+                  context.l10n.importantSwitchTileNoText,
                   style: textStyle,
                   strutStyle: StrutStyle(
                     fontSize: textStyle.fontSize,
@@ -116,7 +121,7 @@ class _ImportantSwitchTile extends _SwitchTile {
 
   @override
   Widget buildTitle(BuildContext context) {
-    return const Text('Важность');
+    return Text(context.l10n.importantSwitchText);
   }
 }
 
@@ -168,7 +173,7 @@ class _CalendarSwitchTile extends _SwitchTile {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Сделать до'),
+            Text(context.l10n.deadlineSwitchText),
             if (date != null)
               Text(
                 deadlineText!,

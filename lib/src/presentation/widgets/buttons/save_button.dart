@@ -1,46 +1,40 @@
 import 'package:flutter/cupertino.dart';
-import 'package:todo/src/core/theme/theme.dart';
+import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/presentation/widgets/buttons/custom_button.dart';
 
-const _defaultText = 'Cохранить';
-
 /// A stylized button to complete the action
-class SaveButton extends CustomButton {
-  /// This class creates an instance of [StatelessWidget].
-  factory SaveButton({
-    required void Function()? onPressed,
-    Widget? child,
-    Color? color,
-    double? pressedOpacity,
-    BorderRadius? borderRadius,
-    AlignmentGeometry? alignment,
-    EdgeInsetsGeometry? padding,
-    Key? key,
-  }) {
+class SaveButton extends StatelessWidget {
+  const SaveButton({
+    required this.onPressed,
+    super.key,
+    this.color,
+    this.pressedOpacity,
+    this.borderRadius,
+    this.alignment,
+    this.padding,
+  });
+
+  final void Function()? onPressed;
+  final Color? color;
+  final double? pressedOpacity;
+  final BorderRadius? borderRadius;
+  final AlignmentGeometry? alignment;
+  final EdgeInsetsGeometry? padding;
+
+  @override
+  Widget build(BuildContext context) {
     const textStyle = TextStyle(
       fontWeight: FontWeight.w600,
     );
 
-    return SaveButton._(
-      color: color ?? AppColors.blue,
-      key: key,
+    return CustomButton(
       onPressed: onPressed,
+      color: color,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,
       alignment: alignment,
       padding: padding,
-      child: child ?? const Text(_defaultText, style: textStyle),
+      child: Text(context.l10n.saveText, style: textStyle),
     );
   }
-
-  const SaveButton._({
-    required super.child,
-    required super.onPressed,
-    super.key,
-    super.pressedOpacity,
-    super.borderRadius,
-    super.alignment,
-    super.color,
-    super.padding,
-  });
 }

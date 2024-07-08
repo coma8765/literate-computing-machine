@@ -9,7 +9,6 @@ environment:
 
 dependencies:
   dio: ^5.4.3+1
-  exponential_back_off: ^0.1.0+2
   flutter:
     sdk: flutter
   logging: ^1.2.0
@@ -21,5 +20,8 @@ dev_dependencies:
   dotenv: ^4.2.0
   flutter_test:
     sdk: flutter
+  http_mock_adapter: ^0.6.1
   mocktail: ^1.0.3
+  test: ^1.25.7
+  test_coverage_badge: ^0.2.0
   very_good_analysis: ^5.1.0

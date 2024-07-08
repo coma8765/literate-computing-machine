@@ -21,6 +21,8 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Todo {
   String get id => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get changedAt => throw _privateConstructorUsedError;
   bool get done => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   Importance get importance => throw _privateConstructorUsedError;
@@ -38,6 +40,8 @@ abstract class $TodoCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      DateTime createdAt,
+      DateTime changedAt,
       bool done,
       String text,
       Importance importance,
@@ -58,6 +62,8 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
   @override
   $Res call({
     Object? id = null,
+    Object? createdAt = null,
+    Object? changedAt = null,
     Object? done = null,
     Object? text = null,
     Object? importance = null,
@@ -68,6 +74,14 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      changedAt: null == changedAt
+          ? _value.changedAt
+          : changedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       done: null == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
@@ -97,6 +111,8 @@ abstract class _$$TodoImplCopyWith<$Res> implements $TodoCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      DateTime createdAt,
+      DateTime changedAt,
       bool done,
       String text,
       Importance importance,
@@ -114,6 +130,8 @@ class __$$TodoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? createdAt = null,
+    Object? changedAt = null,
     Object? done = null,
     Object? text = null,
     Object? importance = null,
@@ -124,6 +142,14 @@ class __$$TodoImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      changedAt: null == changedAt
+          ? _value.changedAt
+          : changedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       done: null == done
           ? _value.done
           : done // ignore: cast_nullable_to_non_nullable
@@ -149,6 +175,8 @@ class __$$TodoImplCopyWithImpl<$Res>
 class _$TodoImpl extends _Todo {
   _$TodoImpl(
       {required this.id,
+      required this.createdAt,
+      required this.changedAt,
       this.done = false,
       this.text = '',
       this.importance = Importance.basic,
@@ -160,6 +188,10 @@ class _$TodoImpl extends _Todo {
 
   @override
   final String id;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime changedAt;
   @override
   @JsonKey()
   final bool done;
@@ -174,7 +206,7 @@ class _$TodoImpl extends _Todo {
 
   @override
   String toString() {
-    return 'Todo(id: $id, done: $done, text: $text, importance: $importance, deadline: $deadline)';
+    return 'Todo(id: $id, createdAt: $createdAt, changedAt: $changedAt, done: $done, text: $text, importance: $importance, deadline: $deadline)';
   }
 
   @override
@@ -183,6 +215,10 @@ class _$TodoImpl extends _Todo {
         (other.runtimeType == runtimeType &&
             other is _$TodoImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.changedAt, changedAt) ||
+                other.changedAt == changedAt) &&
             (identical(other.done, done) || other.done == done) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.importance, importance) ||
@@ -193,8 +229,8 @@ class _$TodoImpl extends _Todo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, done, text, importance, deadline);
+  int get hashCode => Object.hash(
+      runtimeType, id, createdAt, changedAt, done, text, importance, deadline);
 
   @JsonKey(ignore: true)
   @override
@@ -213,6 +249,8 @@ class _$TodoImpl extends _Todo {
 abstract class _Todo extends Todo {
   factory _Todo(
       {required final String id,
+      required final DateTime createdAt,
+      required final DateTime changedAt,
       final bool done,
       final String text,
       final Importance importance,
@@ -223,6 +261,10 @@ abstract class _Todo extends Todo {
 
   @override
   String get id;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get changedAt;
   @override
   bool get done;
   @override

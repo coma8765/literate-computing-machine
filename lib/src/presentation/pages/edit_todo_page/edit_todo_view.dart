@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
 import 'package:todo/src/presentation/pages/edit_todo_page/widgets/widgets.dart';
@@ -45,14 +46,20 @@ class TODOView extends StatelessWidget {
           child: CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
               padding: _kNavBarPadding,
-              middle: const Text('Дело'),
+              middle: Text(context.l10n.editPageTitle),
               leading: const NavigationCancelButton(),
               trailing: BlocBuilder<EditTodoCubit, EditTodoState>(
                 builder: (context, state) {
+                  assert(
+                    state is EditTodoEditableState,
+                    'unable build without editable state',
+                  );
+
                   return SaveButton(
-                    onPressed: state.todo != state.initialTodo ? () {
-                      context.read<EditTodoCubit>().saveAction();
-                    } : null,
+                    onPressed: (state as EditTodoEditableState).todo !=
+                            state.initialTodo
+                        ? () => context.read<EditTodoCubit>().saveAction()
+                        : null,
                     padding: EdgeInsetsDirectional.zero,
                   );
                 },
@@ -84,19 +91,19 @@ class _TODOEdit extends StatelessWidget {
     final fields = [
       CustomTextField(
         backgroundBackground: backgroundBackground,
-        initialValue: cubit.state.initialTodo.text,
+        initialValue: (cubit.state as EditTodoEditableState).initialTodo.text,
         onChanged: cubit.setText,
       ),
       const Switches(),
       CustomButton.filled(
         onPressed: () {
-          context
-              .read<TodosRepository>()
-              .deleteTodo(cubit.state.initialTodo.id);
+          context.read<TodosRepository>().deleteTodo(
+                (cubit.state as EditTodoEditableState).initialTodo.id,
+              );
           Navigator.of(context).pop();
         },
         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-        child: const Text('Удалить'),
+        child: Text(context.l10n.removeText),
       ),
     ];
 

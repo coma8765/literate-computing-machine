@@ -47,10 +47,11 @@ enum Importance {
 /// A Todo entity
 @freezed
 class Todo with _$Todo {
-
   /// This class creates instances of [Todo]
   factory Todo({
     required String id,
+    required DateTime createdAt,
+    required DateTime changedAt,
     @Default(false) bool done,
     @Default('') String text,
     @Default(Importance.basic) Importance importance,
@@ -61,17 +62,20 @@ class Todo with _$Todo {
 
   /// This class creates instances of [Todo] with random [id]
   factory Todo.create({
+    String? id,
     String text = '',
     bool done = false,
     Importance importance = Importance.basic,
     DateTime? deadline,
   }) =>
       Todo(
-        id: const Uuid().v4(),
+        id: id ?? const Uuid().v4(),
         text: text,
         done: done,
         importance: importance,
         deadline: deadline,
+        createdAt: DateTime.now(),
+        changedAt: DateTime.now(),
       );
 
   /// This class creates instances of [Todo] from json data
@@ -82,8 +86,11 @@ class Todo with _$Todo {
     return Todo(
       id: model.id,
       text: model.text,
+      done: model.done,
       importance: Importance.fromModel(model.importance),
       deadline: model.deadline,
+      createdAt: model.createdAt,
+      changedAt: model.changedAt,
     );
   }
 
@@ -92,8 +99,11 @@ class Todo with _$Todo {
     return TodoModel(
       id: id,
       text: text,
+      done: done,
       importance: importance.toModel(),
       deadline: deadline,
+      createdAt: createdAt,
+      changedAt: changedAt,
     );
   }
 
