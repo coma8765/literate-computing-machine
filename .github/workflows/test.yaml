@@ -33,7 +33,7 @@ jobs:
         timeout-minutes: 2
       - name: Install dependencies
         run: very_good packages get --recursive
-        timeout-minutes: 10
+        timeout-minutes: 4
       - name: Testing
         run: very_good test --recursive
         timeout-minutes: 10
