@@ -10,6 +10,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup .env
+        uses: SpicyPizza/create-envfile@v2.0
+        timeout-minutes: 1
       - name: Clone repository
         uses: actions/checkout@v4
         timeout-minutes: 1
