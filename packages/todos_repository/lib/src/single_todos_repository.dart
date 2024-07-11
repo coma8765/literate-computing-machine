@@ -29,9 +29,4 @@ class SingleTodosRepository implements TodosRepository {
 
   @override
   FutureOr<void> close() => _todosApi.close();
-
-  @override
-  Future<void> sync() {
-    throw UnimplementedError('unnecessary for single API');
-  }
 }
