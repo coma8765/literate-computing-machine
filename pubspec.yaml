@@ -20,6 +20,8 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=3.5.0-250.0.dev <4.0.0'
+  flutter: 3.23.0-13.0.pre.200
+
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -90,6 +92,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   mocktail: ^1.0.4
+  test: ^1.25.7
   very_good_analysis: ^5.1.0
 
 # For information on the generic Dart part of this file, see the
