@@ -34,7 +34,7 @@ class AutoSyncMultipleRepository {
   }
 
   Future<void> trySyncUntilDone() async {
-    bool success = false;
+    var success = false;
 
     while (!success) {
       try {
