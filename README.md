@@ -32,7 +32,7 @@ very_good test --recursive
 > Запустить в режиме отладки
 
 ```shell
-very_good test --recursive
+flutter run
 ```
 
 ### Выкопать 🎃!
