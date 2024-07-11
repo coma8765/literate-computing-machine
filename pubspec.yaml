@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.5.0-250.0.dev <4.0.0'
+  sdk: ^3.4.0
   flutter: 3.22.2
 
 
@@ -88,11 +88,11 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  freezed: ^2.5.3
+  freezed: ^2.5.0
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   mocktail: ^1.0.4
-  test: ^1.25.7
+  test: ^1.1.7
   very_good_analysis: ^5.1.0
 
 # For information on the generic Dart part of this file, see the
