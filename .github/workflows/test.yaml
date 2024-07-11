@@ -26,7 +26,7 @@ jobs:
         run: dart pub global activate very_good_cli
         timeout-minutes: 2
       - name: Install dependencies
-        run: flutter pub get
+        run: very_good packages get --recursive
         timeout-minutes: 10
       - name: Testing
         run: very_good test --recursive
