@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:network_state_provider/network_state_provider.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/navigation/app_route_navigation_parser.dart';
