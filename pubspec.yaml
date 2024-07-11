@@ -20,7 +20,7 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=3.5.0-250.0.dev <4.0.0'
-  flutter: 3.23.0-13.0.pre.200
+  flutter: 3.22.2
 
 
 # Dependencies specify other packages that your package needs in order to work.
