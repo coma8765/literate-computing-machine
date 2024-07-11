@@ -27,8 +27,10 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      onDidRemovePage: (Page<Object?> page) {
+      onPopPage: (Route<Object?> page, _) {
         _currentState = AppRouterConfig.home();
+        notifyListeners();
+        return true;
       },
       pages: [
         const CupertinoPage(
