@@ -6,27 +6,33 @@ part of 'todo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TODOImpl _$$TODOImplFromJson(Map<String, dynamic> json) => _$TODOImpl(
-      uid: json['uid'] as String,
-      title: json['title'] as String? ?? '',
+_$TodoImpl _$$TodoImplFromJson(Map<String, dynamic> json) => _$TodoImpl(
+      id: json['id'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      changedAt: DateTime.parse(json['changedAt'] as String),
+      done: json['done'] as bool? ?? false,
+      text: json['text'] as String? ?? '',
       importance:
           $enumDecodeNullable(_$ImportanceEnumMap, json['importance']) ??
-              Importance.normal,
+              Importance.basic,
       deadline: json['deadline'] == null
           ? null
           : DateTime.parse(json['deadline'] as String),
     );
 
-Map<String, dynamic> _$$TODOImplToJson(_$TODOImpl instance) =>
+Map<String, dynamic> _$$TodoImplToJson(_$TodoImpl instance) =>
     <String, dynamic>{
-      'uid': instance.uid,
-      'title': instance.title,
+      'id': instance.id,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'changedAt': instance.changedAt.toIso8601String(),
+      'done': instance.done,
+      'text': instance.text,
       'importance': _$ImportanceEnumMap[instance.importance]!,
       'deadline': instance.deadline?.toIso8601String(),
     };
 
 const _$ImportanceEnumMap = {
   Importance.low: 'low',
-  Importance.normal: 'normal',
+  Importance.basic: 'basic',
   Importance.high: 'high',
 };

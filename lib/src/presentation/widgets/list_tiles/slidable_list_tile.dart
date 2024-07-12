@@ -87,8 +87,7 @@ class CustomActionPane extends ActionPane {
   const CustomActionPane._({
     required super.children,
     super.extentRatio,
-    super.motion = const ScrollMotion(),
     super.key,
     super.dismissible,
-  }) : super(closeThreshold: 0.2);
+  }) : super(closeThreshold: 0.2, motion: const ScrollMotion());
 }

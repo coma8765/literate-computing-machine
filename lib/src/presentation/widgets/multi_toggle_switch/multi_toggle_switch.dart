@@ -88,6 +88,8 @@ class _MultiToggleSwitchState extends State<MultiToggleSwitch> {
         setState(() {
           _updateState(index);
         });
+
+        widget.onChange?.call(index);
       },
       widget: widget,
       state: state,

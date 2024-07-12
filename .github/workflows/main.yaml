@@ -1,0 +1,159 @@
+name: CI/CD
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        timeout-minutes: 1
+      - name: Setup .env
+        run: cp .env.example .env
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          cache: true
+        timeout-minutes: 5
+      - name: Check version
+        run: flutter doctor -v
+        timeout-minutes: 1
+      - name: Install very good cli
+        run: dart pub global activate very_good_cli
+        timeout-minutes: 2
+      - name: Install dependencies
+        run: very_good packages get --recursive
+        timeout-minutes: 4
+      - name: Format
+        run: dart format . --set-exit-if-changed
+        timeout-minutes: 10
+  format:
+    runs-on: ubuntu-latest
+    needs: [ lint ]
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        timeout-minutes: 1
+      - name: Setup .env
+        run: cp .env.example .env
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          cache: true
+        timeout-minutes: 5
+      - name: Check version
+        run: flutter doctor -v
+        timeout-minutes: 1
+      - name: Install very good cli
+        run: dart pub global activate very_good_cli
+        timeout-minutes: 2
+      - name: Install dependencies
+        run: very_good packages get --recursive
+        timeout-minutes: 4
+      - name: Format
+        run: dart format . --set-exit-if-changed
+        timeout-minutes: 10
+  test:
+    runs-on: ubuntu-latest
+    needs: [ format ]
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        timeout-minutes: 1
+      - name: Setup .env
+        run: cp .env.example .env
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          cache: true
+        timeout-minutes: 5
+      - name: Check version
+        run: flutter doctor -v
+        timeout-minutes: 1
+      - name: Install very good cli
+        run: dart pub global activate very_good_cli
+        timeout-minutes: 2
+      - name: Install dependencies
+        run: very_good packages get --recursive
+        timeout-minutes: 4
+      - name: Testing
+        run: very_good test --recursive
+        timeout-minutes: 10
+  build:
+    runs-on: ubuntu-latest
+    needs: [ test ]
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        timeout-minutes: 1
+      - name: Setup .env
+        run: cp .env.example .env
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+          check-latest: true
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          cache: true
+        timeout-minutes: 5
+      - name: Check version
+        run: flutter doctor -v
+        timeout-minutes: 1
+      - name: Install very good cli
+        run: dart pub global activate very_good_cli
+        timeout-minutes: 2
+      - name: Setup Gradle cache
+        id: cache-gradle
+        uses: actions/cache@v3
+        if: always() # or any other condition to invoke the save action
+        env:
+          cache-name: cache-gradle
+        with:
+          save-always: true
+          path: ~/.gradle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        run: very_good packages get --recursive
+        timeout-minutes: 4
+      - name: Clean
+        run: flutter clean
+        timeout-minutes: 5
+      - name: Building
+        run: flutter build appbundle --profile --verbose
+        timeout-minutes: 10
+      - name: 'Archive android profile build, appbundle'
+        uses: actions/upload-artifact@v4
+        with:
+          name: profile-appbundle
+          path: build/app/outputs/bundle/profile/app-profile.aab
+  distribute-for-testers:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - name: Download a profile appbundle
+        uses: actions/download-artifact@v4
+        with:
+          name: profile-appbundle
+      - name: Distribute app
+        run: curl -X PUT --http1.1 -F 'app=@./app-profile.aab' ${{ secrets.GETUPDRAFT_DISTRIBUTE_APP_ALPHA_URI }}

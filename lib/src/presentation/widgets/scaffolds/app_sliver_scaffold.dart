@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:network_state_provider/network_state_provider.dart';
 import 'package:todo/src/core/theme/theme.dart';
 
 const _kNavBarBorderWidth = 0.5;
@@ -115,11 +117,28 @@ class _AppSliverScaffoldState extends State<AppSliverScaffold> {
 
     final padding = !_spoiled ? _kNavBarPaddingFull : _kNavBarPaddingSpoiled;
 
-    return Container(
-      height: height,
-      padding: padding,
-      // alignment: Alignment.topCenter,
-      child: widget.largeTitle,
+    return Row(
+      mainAxisAlignment:
+          !_spoiled ? MainAxisAlignment.start : MainAxisAlignment.center,
+      children: [
+        Container(
+          height: height,
+          padding: padding,
+          // alignment: Alignment.topCenter,
+          child: widget.largeTitle,
+        ),
+        StreamBuilder<bool>(
+          stream: NetworkStateProvider.of(context).hasConnection(),
+          builder: (context, snapshot) {
+            return Icon(
+              size: !_spoiled ? 20.0 : 16.0,
+              color: AppColors.grey,
+              snapshot.data! ? Icons.wifi : CupertinoIcons.airplane,
+            );
+          },
+          initialData: true,
+        ),
+      ],
     );
   }
 }

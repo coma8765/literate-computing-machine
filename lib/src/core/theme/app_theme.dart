@@ -3,7 +3,6 @@ import 'package:todo/src/core/theme/theme.dart';
 
 /// Custom Cupertino Theme Data.
 class AppTheme extends CupertinoThemeData {
-
   /// Creates AppTheme's instance for both themes.
   factory AppTheme() {
     return _singleton;

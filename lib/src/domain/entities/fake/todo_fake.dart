@@ -2,12 +2,12 @@ import 'package:todo/src/core/fake/faker.dart';
 import 'package:todo/src/domain/domain.dart';
 
 /// Random Data generator for TODO entity
-class TODOFactory extends ModelFactory<TODO> {
+class TodoFactory extends ModelFactory<Todo> {
   @override
-  TODO generateFake() {
-    final uid = createFakeUuid();
+  Todo generateFake() {
+    final id = createFakeUuid();
 
-    final title = faker.lorem.sentence().substring(0, 20);
+    final text = faker.lorem.sentence().substring(0, 20);
 
     final deadline = faker.randomGenerator.boolean()
         ? faker.date.dateTime(minYear: 2000, maxYear: 2124)
@@ -17,16 +17,18 @@ class TODOFactory extends ModelFactory<TODO> {
       Importance.values,
     );
 
-    return TODO(
-      uid: uid,
-      title: title,
+    return Todo(
+      id: id,
+      text: text,
       importance: importance,
       deadline: deadline,
+      createdAt: DateTime.now().copyWith(microsecond: 0),
+      changedAt: DateTime.now().copyWith(microsecond: 0),
     );
   }
 
   @override
-  List<TODO> generateFakeList({required int length}) {
+  List<Todo> generateFakeList({required int length}) {
     return List.generate(length, (index) => generateFake());
   }
 }

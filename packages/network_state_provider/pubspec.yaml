@@ -1,0 +1,25 @@
+name: network_state_provider
+description: The provider for monitoring internet status.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.4.0
+
+dev_dependencies:
+  mocktail: ^1.0.3
+  very_good_analysis: ^5.1.0
+  flutter_lints: ^4.0.0
+
+  flutter_test:
+    sdk: flutter
+
+
+dependencies:
+  connectivity_plus: ^6.0.3
+  dio: ^5.5.0+1
+  rxdart: ^0.28.0
+  logging: ^1.2.0
+
+  flutter:
+    sdk: flutter

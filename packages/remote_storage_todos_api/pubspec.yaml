@@ -1,0 +1,27 @@
+name: remote_storage_todos_api
+description: A Flutter implementation of the TodosApi that uses remote storage.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.4.0
+  flutter: ^3.22.0
+
+dependencies:
+  dio: ^5.4.3+1
+  flutter:
+    sdk: flutter
+  logging: ^1.2.0
+  rxdart: ^0.28.0
+  todos_api:
+    path: ../todos_api
+
+dev_dependencies:
+  dotenv: ^4.2.0
+  flutter_test:
+    sdk: flutter
+  http_mock_adapter: ^0.6.1
+  mocktail: ^1.0.3
+  test: ^1.1.7
+  test_coverage_badge: ^0.2.0
+  very_good_analysis: ^5.1.0

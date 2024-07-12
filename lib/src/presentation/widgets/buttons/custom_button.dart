@@ -75,13 +75,11 @@ class CustomButton extends StatelessWidget {
   /// Type of the button
   final bool _filled;
 
-
   /// Margin around the content area of the section encapsulating [child].
   ///
   /// Defaults to zero padding if constructed with standard
   /// [CustomButton] constructor.
   final EdgeInsets margin;
-
 
   @override
   Widget build(BuildContext context) {

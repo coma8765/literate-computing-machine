@@ -1,3 +1,4 @@
+
 # This file configures the analyzer, which statically analyzes Dart code to
 # check for errors, warnings, and lints.
 #
@@ -17,8 +18,8 @@ analyzer:
     strict-casts: true
 
   exclude:
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
+    - "lib/**.g.dart"
+    - "lib/**.freezed.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the
@@ -33,6 +34,8 @@ linter:
   # producing the lint.
   rules:
     prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    public_member_api_docs: false
+    flutter_style_todos: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
