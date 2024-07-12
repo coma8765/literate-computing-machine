@@ -72,6 +72,16 @@ flutter build linux
     - ./packages/todos_api
     - ./packages/todos_repository
 
+### Инфраструктура (CI-CD)
+
+> Github Workflow
+
+- форматирование
+- анализ
+- тестирование
+- сборка
+- деплой на getupdraft
+
 ### Тестирование
 
 - Тестрование локального API
