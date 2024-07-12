@@ -93,8 +93,10 @@ flutter build linux
 
 ## Screenshots
 
-<img alt="simulator_screenshot_B42BD8EE-FAD7-40D4-92CC-E06F97FB71A6.png" src="docs/images/simulator_screenshot_B42BD8EE-FAD7-40D4-92CC-E06F97FB71A6.png" width="250"/>
-<img alt="home-page-screen-light.png" src="docs/images/home-page-screen-light.png" width="250"/>
-<img alt="home-page-screen-light.png" src="docs/images/home-page-screen-dark.png" width="250"/>
-<img alt="todo-page-screen-dark.png" src="docs/images/todo-page-screen-dark.png" width="250"/>
-<img alt="todo-page-screen-light.png" src="docs/images/todo-page-screen-light.png" width="250"/>
+<p float="left">
+  <img alt="simulator_screenshot_B42BD8EE-FAD7-40D4-92CC-E06F97FB71A6.png" src="docs/images/simulator_screenshot_B42BD8EE-FAD7-40D4-92CC-E06F97FB71A6.png" width="250"/>
+  <img alt="home-page-screen-light.png" src="docs/images/home-page-screen-light.png" width="250"/>
+  <img alt="home-page-screen-light.png" src="docs/images/home-page-screen-dark.png" width="250"/>
+  <img alt="todo-page-screen-dark.png" src="docs/images/todo-page-screen-dark.png" width="250"/>
+  <img alt="todo-page-screen-light.png" src="docs/images/todo-page-screen-light.png" width="250"/>
+</p>
