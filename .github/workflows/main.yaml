@@ -115,6 +115,9 @@ jobs:
       - name: Install dependencies
         run: very_good packages get --recursive
         timeout-minutes: 4
+      - name: Clean
+        run: flutter clean
+        timeout-minutes: 5
       - name: Building
         run: flutter build appbundle --profile --verbose
         timeout-minutes: 10
