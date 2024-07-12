@@ -115,9 +115,11 @@ jobs:
       - name: Setup Gradle cache
         id: cache-gradle
         uses: actions/cache@v3
+        if: always() # or any other condition to invoke the save action
         env:
           cache-name: cache-gradle
         with:
+          save-always: true
           path: ~/.gradle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.yaml') }}
           restore-keys: |
