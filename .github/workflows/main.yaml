@@ -23,7 +23,7 @@ jobs:
           cache: true
         timeout-minutes: 5
       - name: Check version
-        run: flutter --version
+        run: flutter doctor -v
         timeout-minutes: 1
       - name: Install very good cli
         run: dart pub global activate very_good_cli
@@ -51,7 +51,7 @@ jobs:
           cache: true
         timeout-minutes: 5
       - name: Check version
-        run: flutter --version
+        run: flutter doctor -v
         timeout-minutes: 1
       - name: Install very good cli
         run: dart pub global activate very_good_cli
@@ -79,7 +79,7 @@ jobs:
           cache: true
         timeout-minutes: 5
       - name: Check version
-        run: flutter --version
+        run: flutter doctor -v
         timeout-minutes: 1
       - name: Install very good cli
         run: dart pub global activate very_good_cli
@@ -107,7 +107,7 @@ jobs:
           cache: true
         timeout-minutes: 5
       - name: Check version
-        run: flutter --version
+        run: flutter doctor -v
         timeout-minutes: 1
       - name: Install very good cli
         run: dart pub global activate very_good_cli
