@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart'
     show DismissiblePane, SlidableAutoCloseBehavior;
 import 'package:logging/logging.dart';
 import 'package:todo/l10n/l10n.dart';
+import 'package:todo/src/core/config/config.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
@@ -243,21 +244,36 @@ class _ListTile extends StatelessWidget {
       subtitle = _ListTileSubtitle(text: deadlineText);
     }
 
+    final themeOverrides = ThemeOverrides.of(context);
+    final importanceColor = themeOverrides.importanceColor != null
+        ? Color(themeOverrides.importanceColor!)
+        : AppColors.red;
+
     return CustomSlidableListTile(
       key: ValueKey(todo.id),
       onTap: () => _openEdit(context),
-      title: Text(
-        todo.text,
-        style: TextStyle(
-          decoration: todo.done ? TextDecoration.lineThrough : null,
-        ),
+      title: Row(
+        children: [
+          if (todo.importance == Importance.high)
+            const Padding(
+              padding: EdgeInsets.only(right: 4.0),
+              child: ImportanceHighIcon(),
+            ),
+          Text(
+            todo.text,
+            style: TextStyle(
+              decoration: todo.done ? TextDecoration.lineThrough : null,
+            ),
+          ),
+        ],
       ),
       subtitle: subtitle,
       leading: RoundedCheckbox(
         value: todo.done,
-        borderColor: todo.importance == Importance.high ? AppColors.red : null,
+        borderColor:
+            todo.importance == Importance.high ? importanceColor : null,
         inactiveColor: todo.importance == Importance.high
-            ? AppColors.red.withAlpha(25)
+            ? importanceColor.withAlpha(25)
             : null,
         onChange: (value) {
           if (value == null) return;
@@ -270,7 +286,7 @@ class _ListTile extends StatelessWidget {
               );
         },
       ),
-      trailing: const CustomChevron(),
+      trailing: const ChevronIcon(),
       onRemove: onRemove,
       startActionPane: CustomActionPane(
         children: [
