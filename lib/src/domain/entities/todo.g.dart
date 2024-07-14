@@ -8,8 +8,8 @@ part of 'todo.dart';
 
 _$TodoImpl _$$TodoImplFromJson(Map<String, dynamic> json) => _$TodoImpl(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      changedAt: DateTime.parse(json['changedAt'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
+      changedAt: DateTime.parse(json['changed_at'] as String),
       done: json['done'] as bool? ?? false,
       text: json['text'] as String? ?? '',
       importance:
@@ -23,8 +23,8 @@ _$TodoImpl _$$TodoImplFromJson(Map<String, dynamic> json) => _$TodoImpl(
 Map<String, dynamic> _$$TodoImplToJson(_$TodoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'changedAt': instance.changedAt.toIso8601String(),
+      'created_at': instance.createdAt.toIso8601String(),
+      'changed_at': instance.changedAt.toIso8601String(),
       'done': instance.done,
       'text': instance.text,
       'importance': _$ImportanceEnumMap[instance.importance]!,

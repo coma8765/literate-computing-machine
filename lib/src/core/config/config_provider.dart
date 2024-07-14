@@ -33,45 +33,29 @@ class ConfigProvider extends InheritedModel<ConfigAspects> {
       return true;
     }
 
+    if (dependencies.contains(ConfigAspects.themeOverrides) &&
+        oldWidget.config.themeOverrides != config.themeOverrides) {
+      return true;
+    }
+
     return false;
   }
 
   static ConfigProvider? maybeOf(
     BuildContext context, {
-    required Set<ConfigAspects> aspect,
+    required ConfigAspects aspect,
   }) {
     return context.dependOnInheritedWidgetOfExactType<ConfigProvider>(
       aspect: aspect,
     );
   }
 
-  static ConfigProvider of(
+  static Config of(
     BuildContext context, {
-    required Set<ConfigAspects> aspect,
+    required ConfigAspects aspect,
   }) {
     final instance = ConfigProvider.maybeOf(context, aspect: aspect);
     assert(instance != null, "instance ConfigProvider doesn't exists");
-    return instance!;
-  }
-
-  static String? sentryDsnOf(BuildContext context) {
-    return ConfigProvider.of(
-      context,
-      aspect: {ConfigAspects.sentryDsn},
-    ).config.sentryDsn;
-  }
-
-  static String? apiUrlOf(BuildContext context) {
-    return ConfigProvider.of(
-      context,
-      aspect: {ConfigAspects.apiUrl},
-    ).config.apiUrl;
-  }
-
-  static String? apiTokenOf(BuildContext context) {
-    return ConfigProvider.of(
-      context,
-      aspect: {ConfigAspects.apiToken},
-    ).config.apiToken;
+    return instance!.config;
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:logging/logging.dart';
@@ -58,10 +59,18 @@ class FirebaseRemoteConfigSource extends ConfigSource {
   }
 
   void _updateConfig() {
+    final themeOverridesJson = _remoteConfig.getString('THEME_OVERRIDES');
+    final themeOverrides = themeOverridesJson.isNotEmpty
+        ? ThemeOverrides.fromJson(
+            jsonDecode(themeOverridesJson) as Map<String, dynamic>,
+          )
+        : const ThemeOverrides();
+
     final config = Config(
       sentryDsn: _remoteConfig.getString('SENTRY_DSN'),
       apiUrl: _remoteConfig.getString('API_URI'),
       apiToken: _remoteConfig.getString('API_AUTH'),
+      themeOverrides: themeOverrides,
     );
 
     _configStreamController.add(config);
