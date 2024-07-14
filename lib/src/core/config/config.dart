@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'config_provider.dart';
+import 'package:todo/src/core/config/config_provider.dart';
 
 export 'config_provider.dart';
 export 'config_sources/config_source.dart';
