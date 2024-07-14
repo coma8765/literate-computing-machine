@@ -61,8 +61,8 @@ Future<ConfigSource> _configSource() async {
   // final defaultConfig = dotenvConfig.getSingleConfig();
 
   return FirebaseRemoteConfigSource(
-    // defaultConfig: defaultConfig,
-  );
+      // defaultConfig: defaultConfig,
+      );
 }
 
 Dio _getDio(Config config) {

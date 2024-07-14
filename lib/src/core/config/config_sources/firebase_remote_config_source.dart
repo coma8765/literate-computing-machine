@@ -4,7 +4,6 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:todo/src/core/config/config.dart';
-import 'package:todo/src/core/config/config_sources/config_source.dart';
 
 class FirebaseRemoteConfigSource extends ConfigSource {
   FirebaseRemoteConfigSource({

@@ -156,6 +156,5 @@ flutter:
           weight: 600
 
   assets:
-    - ----.env
     - assets/design/
     - assets/svg/

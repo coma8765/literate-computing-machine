@@ -44,58 +44,56 @@ void bootstrap({
 }) {
   final logger = Logger('bootstrap');
 
-  runZonedGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-      logger.config('01: start thirdPartyInitFirstly callback');
-      await thirdPartyInitFirstly?.call();
+    logger.config('01: start thirdPartyInitFirstly callback');
+    await thirdPartyInitFirstly?.call();
 
-      // Setup application configs
-      logger.config('02: setup config');
-      final configSource = await getConfigSource();
-      await configSource.init();
-      final config = await configSource.getConfig().first;
+    // Setup application configs
+    logger.config('02: setup config');
+    final configSource = await getConfigSource();
+    await configSource.init();
+    final config = await configSource.getConfig().first;
 
-      logger.config('03: start thirdPartyInitSecondly callback');
-      await thirdPartyInitSecondly?.call(config);
+    logger.config('03: start thirdPartyInitSecondly callback');
+    await thirdPartyInitSecondly?.call(config);
 
-      // Setup dio, http client communications
-      logger.config('04: setup getDio');
-      final dio = getDio(config);
+    // Setup dio, http client communications
+    logger.config('04: setup getDio');
+    final dio = getDio(config);
 
-      // Setup network state producers
-      logger.config('05: setup getNetworkStateProducers');
-      final networkStateProducers = getNetworkStateProducers(dio);
+    // Setup network state producers
+    logger.config('05: setup getNetworkStateProducers');
+    final networkStateProducers = getNetworkStateProducers(dio);
 
-      // Setup data sources and repository
-      logger.config('06: setup getTodosApis');
-      final todosApis = await getTodosApis(config, dio);
-      final todosRepository = MultipleTodosRepository(todosApis: todosApis);
+    // Setup data sources and repository
+    logger.config('06: setup getTodosApis');
+    final todosApis = await getTodosApis(config, dio);
+    final todosRepository = MultipleTodosRepository(todosApis: todosApis);
 
-      // Setup apis synchronization
-      logger.config('07: setup todos apis sync');
-      todosApiSync?.call(todosApis);
+    // Setup apis synchronization
+    logger.config('07: setup todos apis sync');
+    todosApiSync?.call(todosApis);
 
-      // FlutterError.onError = flutterErrorHandler;
+    // FlutterError.onError = flutterErrorHandler;
 
-      if (kDebugMode) {
-        // State management observer
-        Bloc.observer = await getBlocObserver();
-      }
-
-      logger.config('08: run application');
-      runApp(
-        App(
-          todosRepository: todosRepository,
-          networkStateProducers: networkStateProducers,
-          configSource: configSource,
-        ),
-      );
-    },
-    (error, stack) {
-      log('error!', error: error, stackTrace: stack);
+    if (kDebugMode) {
+      // State management observer
+      Bloc.observer = await getBlocObserver();
     }
-    // onError,
-  );
+
+    logger.config('08: run application');
+    runApp(
+      App(
+        todosRepository: todosRepository,
+        networkStateProducers: networkStateProducers,
+        configSource: configSource,
+      ),
+    );
+  }, (error, stack) {
+    log('error!', error: error, stackTrace: stack);
+  }
+      // onError,
+      );
 }

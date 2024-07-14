@@ -72,5 +72,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'dev-coma8765-todos.appspot.com',
     iosBundleId: 'dev.coma8765.todo',
   );
-
 }

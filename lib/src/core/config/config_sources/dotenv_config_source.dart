@@ -4,8 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:todo/src/core/config/config.dart';
 
-import 'package:todo/src/core/config/config_sources/config_source.dart';
-
 class DotenvConfigSource extends ConfigSource {
   final _configStreamController = BehaviorSubject<Config>();
 
