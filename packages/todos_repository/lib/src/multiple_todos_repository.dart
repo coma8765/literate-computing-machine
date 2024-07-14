@@ -25,7 +25,7 @@ class MultipleTodosRepository implements TodosRepository {
 
   @override
   Stream<List<TodoModel>> getTodos() {
-    _logging.info('todos requested');
+    _logging.finer('todos requested');
 
     return _mainTodosApi.getTodos();
   }

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:todo/src/core/config/config.dart';
 
 Dio getDio({
   required String apiUrl,
@@ -11,16 +10,14 @@ Dio getDio({
   Duration timeout = const Duration(minutes: 1),
   List<Interceptor> interceptors = const [],
 }) {
-  final baseUrl = Config().apiUrl;
-
   final headers = {
-    HttpHeaders.authorizationHeader: Config().apiToken,
+    HttpHeaders.authorizationHeader: apiToken,
     'X-Generate-Fails': failsPercent,
   };
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: apiUrl,
       headers: headers,
       connectTimeout: timeout,
       receiveTimeout: timeout,
