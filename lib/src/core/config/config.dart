@@ -1,29 +1,24 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Config {
-  factory Config() {
-    _singleton ??= Config._(
-      sentryDsn: dotenv.env['SENTRY_DSN'] ?? '',
-      apiUrl: dotenv.env['API_URI'] ?? '',
-      apiToken: dotenv.env['API_AUTH'] ?? '',
-    );
+export 'config_provider.dart';
+export 'config_sources/config_source.dart';
 
-    return _singleton!;
-  }
+part 'config.freezed.dart';
+part 'config.g.dart';
 
-  Config._({
-    required this.sentryDsn,
-    required this.apiUrl,
-    required this.apiToken,
-  });
+@freezed
+class Config with _$Config {
+  const factory Config({
+    required String sentryDsn,
+    required String apiUrl,
+    required String apiToken,
+  }) = _Config;
 
-  static Config? _singleton;
+  factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
+}
 
-  final String sentryDsn;
-  final String apiUrl;
-  final String apiToken;
-
-  static Future<void> init() {
-    return dotenv.load();
-  }
+enum ConfigAspects {
+  sentryDsn,
+  apiUrl,
+  apiToken,
 }

@@ -253,7 +253,7 @@ class RemoteStorageTodosApi extends TodosApi {
         .where((t) => !t.isRemoved)
         .toList();
 
-    _logger.info('sync todo, count=${todosToSave.length}');
+    _logger.finer('sync todo, count=${todosToSave.length}');
 
     await _setValue(todosToSave, _todoStreamController.value.revision);
   }
