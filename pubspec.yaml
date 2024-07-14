@@ -94,6 +94,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   freezed: ^2.5.0
+  git_hooks: ^1.0.1
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   mocktail: ^1.0.4

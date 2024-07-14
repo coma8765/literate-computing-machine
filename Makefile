@@ -5,3 +5,11 @@ build_runner:
 
 clean:
 	flutter clean
+
+pre-commit:
+	dart format .
+	flutter analyze
+
+pre-commit-check:
+	dart format . --set-exit-if-changed
+	flutter analyze
