@@ -1,3 +1,4 @@
+import 'package:analytics/analytics_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,12 +14,14 @@ class App extends StatelessWidget {
     required this.todosRepository,
     required this.networkStateProducers,
     required this.configSource,
+    required this.analytics,
     super.key,
   });
 
   final TodosRepository todosRepository;
   final List<NetworkStateProducer> networkStateProducers;
   final ConfigSource configSource;
+  final Analytics analytics;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +30,16 @@ class App extends StatelessWidget {
       initialData: configSource.getSingleConfig(),
       builder: (context, snapshot) => ConfigProvider(
         config: snapshot.requireData,
-        child: MultiBlocProvider(
-          providers: [
-            RepositoryProvider.value(value: todosRepository),
-          ],
-          child: NetworkStateProvider(
-            producers: networkStateProducers,
-            child: AppView(),
+        child: AnalyticsProvider(
+          analytics: analytics,
+          child: MultiBlocProvider(
+            providers: [
+              RepositoryProvider.value(value: todosRepository),
+            ],
+            child: NetworkStateProvider(
+              producers: networkStateProducers,
+              child: AppView(analytics: analytics),
+            ),
           ),
         ),
       ),
@@ -42,9 +48,12 @@ class App extends StatelessWidget {
 }
 
 class AppView extends StatelessWidget {
-  AppView({super.key});
+  AppView({
+    required Analytics analytics,
+    super.key,
+  }) : _routerDelegate = AppRouterDelegate(analytics: analytics);
 
-  final _routerDelegate = AppRouterDelegate();
+  final AppRouterDelegate _routerDelegate;
   final _routeInformationParser = AppRouterParser();
 
   @override

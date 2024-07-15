@@ -35,9 +35,9 @@ environment:
 # https://github.com/flutter/flutter/issues/63693
 
 dependencies:
-
+  analytics:
+    path: packages/analytics
   cupertino_icons: ^1.0.8
-
   dio: ^5.4.3+1
   dio_smart_retry: ^6.0.0
   equatable: ^2.0.5

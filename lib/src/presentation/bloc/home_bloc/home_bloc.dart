@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/src/domain/domain.dart';
@@ -12,16 +13,18 @@ part 'home_event.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required TodosRepository todosRepository,
+    required Analytics analytics,
   })  : _todosRepository = todosRepository,
+        _analytics = analytics,
         super(const HomeState()) {
     on<HomeSubscriptionRequested>(_onSubscriptionRequested);
     on<HomeShowAllToggled>(_onHomeShowAllToggled);
     on<HomeTodoDeleted>(_onHomeTodoDeleted);
     on<HomeTodoDoneToggled>(_onHomeTodoDoneToggled);
-    on<HomeTodoSave>(_onHomeTodoSave);
   }
 
   final TodosRepository _todosRepository;
+  final Analytics _analytics;
 
   Future<void> _onSubscriptionRequested(
     HomeSubscriptionRequested event,
@@ -39,8 +42,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         status: () => HomeStatus.failure,
       ),
     );
-
-    await _todosRepository.reload();
   }
 
   Future<void> _onHomeShowAllToggled(
@@ -64,19 +65,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ),
     );
 
-    await _todosRepository.deleteTodo(event.todo.id);
+    await _deleteTodo(event.todo);
   }
 
   FutureOr<void> _onHomeTodoDoneToggled(
     HomeTodoDoneToggled event,
     Emitter<HomeState> emit,
-  ) {
+  ) async {
     final todo = event.todo.copyWith(
       done: event.isDone,
       changedAt: DateTime.now().copyWith(microsecond: 0),
     );
-
-    _todosRepository.saveTodo(todo.toModel());
 
     emit(
       state.copyWith(
@@ -89,24 +88,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         },
       ),
     );
+
+    await _saveTodo(todo);
   }
 
-  FutureOr<void> _onHomeTodoSave(HomeTodoSave event, Emitter<HomeState> emit) {
-    final todos = [...state.todos];
-    final index = todos.indexWhere((t) => t.id == event.todo.id);
+  Future<void> _saveTodo(Todo todo) async {
+    await _todosRepository.saveTodo(todo.toModel());
+    await _analytics.reportTodoSave(todoId: todo.id);
+  }
 
-    if (index >= 0) {
-      todos[index] = event.todo;
-    } else {
-      todos.add(event.todo);
-    }
-
-    emit(
-      state.copyWith(
-        todos: () => todos,
-      ),
-    );
-
-    _todosRepository.saveTodo(event.todo.toModel());
+  Future<void> _deleteTodo(Todo todo) async {
+    await _todosRepository.deleteTodo(todo.id);
+    await _analytics.reportTodoDelete(todoId: todo.id);
   }
 }

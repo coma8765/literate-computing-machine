@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/src/navigation/app_router_delegate.dart';
@@ -11,8 +12,9 @@ void showTODOPage(
   BuildContext context,
   String? todoId,
 ) {
-  (Router.of(context).routerDelegate as AppRouterDelegate)
-      .editTodoTrigger(todoId);
+  final routeDelegate = Router.of(context).routerDelegate;
+  assert(routeDelegate is AppRouterDelegate, 'support only AppRouterDelegate');
+  if (routeDelegate is AppRouterDelegate) routeDelegate.editTodoTrigger(todoId);
 }
 
 class TodoPage extends StatelessWidget {
@@ -26,6 +28,7 @@ class TodoPage extends StatelessWidget {
       create: (_) => EditTodoCubit(
         todoId: todoId,
         todosRepository: context.read<TodosRepository>(),
+        analytics: Analytics.of(context),
       )..loadTodo(),
       lazy: false,
       child: Builder(

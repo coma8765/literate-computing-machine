@@ -23,6 +23,7 @@ class EditTodoLoadingState extends EditTodoState {
 class EditTodoEditableState extends EditTodoState {
   factory EditTodoEditableState({
     required Todo initialTodo,
+    bool created = false,
   }) =>
       EditTodoEditableState._(
         todoId: initialTodo.id,
@@ -30,6 +31,7 @@ class EditTodoEditableState extends EditTodoState {
         text: initialTodo.text,
         importance: initialTodo.importance,
         deadline: initialTodo.deadline,
+        created: created,
       );
 
   const EditTodoEditableState._({
@@ -38,12 +40,14 @@ class EditTodoEditableState extends EditTodoState {
     required this.text,
     required this.importance,
     required this.deadline,
+    required this.created,
   });
 
   final Todo initialTodo;
   final String text;
   final Importance importance;
   final DateTime? deadline;
+  final bool created;
 
   EditTodoState copyWith({
     Todo? initialTodo,
@@ -59,6 +63,7 @@ class EditTodoEditableState extends EditTodoState {
       text: text ?? this.text,
       importance: importance ?? this.importance,
       deadline: emptyDeadline ? null : deadline ?? this.deadline,
+      created: created,
     );
   }
 

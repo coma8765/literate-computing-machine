@@ -162,6 +162,7 @@ mixin _$Config {
   String get sentryDsn => throw _privateConstructorUsedError;
   String get apiUrl => throw _privateConstructorUsedError;
   String get apiToken => throw _privateConstructorUsedError;
+  String get appMetricaToken => throw _privateConstructorUsedError;
   ThemeOverrides get themeOverrides => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -178,6 +179,7 @@ abstract class $ConfigCopyWith<$Res> {
       {String sentryDsn,
       String apiUrl,
       String apiToken,
+      String appMetricaToken,
       ThemeOverrides themeOverrides});
 
   $ThemeOverridesCopyWith<$Res> get themeOverrides;
@@ -199,6 +201,7 @@ class _$ConfigCopyWithImpl<$Res, $Val extends Config>
     Object? sentryDsn = null,
     Object? apiUrl = null,
     Object? apiToken = null,
+    Object? appMetricaToken = null,
     Object? themeOverrides = null,
   }) {
     return _then(_value.copyWith(
@@ -213,6 +216,10 @@ class _$ConfigCopyWithImpl<$Res, $Val extends Config>
       apiToken: null == apiToken
           ? _value.apiToken
           : apiToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      appMetricaToken: null == appMetricaToken
+          ? _value.appMetricaToken
+          : appMetricaToken // ignore: cast_nullable_to_non_nullable
               as String,
       themeOverrides: null == themeOverrides
           ? _value.themeOverrides
@@ -241,6 +248,7 @@ abstract class _$$ConfigImplCopyWith<$Res> implements $ConfigCopyWith<$Res> {
       {String sentryDsn,
       String apiUrl,
       String apiToken,
+      String appMetricaToken,
       ThemeOverrides themeOverrides});
 
   @override
@@ -261,6 +269,7 @@ class __$$ConfigImplCopyWithImpl<$Res>
     Object? sentryDsn = null,
     Object? apiUrl = null,
     Object? apiToken = null,
+    Object? appMetricaToken = null,
     Object? themeOverrides = null,
   }) {
     return _then(_$ConfigImpl(
@@ -275,6 +284,10 @@ class __$$ConfigImplCopyWithImpl<$Res>
       apiToken: null == apiToken
           ? _value.apiToken
           : apiToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      appMetricaToken: null == appMetricaToken
+          ? _value.appMetricaToken
+          : appMetricaToken // ignore: cast_nullable_to_non_nullable
               as String,
       themeOverrides: null == themeOverrides
           ? _value.themeOverrides
@@ -291,6 +304,7 @@ class _$ConfigImpl implements _Config {
       {required this.sentryDsn,
       required this.apiUrl,
       required this.apiToken,
+      required this.appMetricaToken,
       required this.themeOverrides});
 
   factory _$ConfigImpl.fromJson(Map<String, dynamic> json) =>
@@ -303,11 +317,13 @@ class _$ConfigImpl implements _Config {
   @override
   final String apiToken;
   @override
+  final String appMetricaToken;
+  @override
   final ThemeOverrides themeOverrides;
 
   @override
   String toString() {
-    return 'Config(sentryDsn: $sentryDsn, apiUrl: $apiUrl, apiToken: $apiToken, themeOverrides: $themeOverrides)';
+    return 'Config(sentryDsn: $sentryDsn, apiUrl: $apiUrl, apiToken: $apiToken, appMetricaToken: $appMetricaToken, themeOverrides: $themeOverrides)';
   }
 
   @override
@@ -320,14 +336,16 @@ class _$ConfigImpl implements _Config {
             (identical(other.apiUrl, apiUrl) || other.apiUrl == apiUrl) &&
             (identical(other.apiToken, apiToken) ||
                 other.apiToken == apiToken) &&
+            (identical(other.appMetricaToken, appMetricaToken) ||
+                other.appMetricaToken == appMetricaToken) &&
             (identical(other.themeOverrides, themeOverrides) ||
                 other.themeOverrides == themeOverrides));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, sentryDsn, apiUrl, apiToken, themeOverrides);
+  int get hashCode => Object.hash(runtimeType, sentryDsn, apiUrl, apiToken,
+      appMetricaToken, themeOverrides);
 
   @JsonKey(ignore: true)
   @override
@@ -348,6 +366,7 @@ abstract class _Config implements Config {
       {required final String sentryDsn,
       required final String apiUrl,
       required final String apiToken,
+      required final String appMetricaToken,
       required final ThemeOverrides themeOverrides}) = _$ConfigImpl;
 
   factory _Config.fromJson(Map<String, dynamic> json) = _$ConfigImpl.fromJson;
@@ -358,6 +377,8 @@ abstract class _Config implements Config {
   String get apiUrl;
   @override
   String get apiToken;
+  @override
+  String get appMetricaToken;
   @override
   ThemeOverrides get themeOverrides;
   @override
