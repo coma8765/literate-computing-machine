@@ -75,7 +75,7 @@ dependencies:
   todos_repository:
     path: packages/todos_repository
   toggle_switch: ^2.3.0
-  uuid: ^4.4.0
+  uuid: ^4.4.2
 
 
   # The following adds the Cupertino Icons font to your application.
