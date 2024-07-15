@@ -33,17 +33,3 @@ class CancelButton extends StatelessWidget {
     );
   }
 }
-
-/// A navigation back button
-class NavigationCancelButton extends CancelButton {
-  /// This class creates an instance of [StatelessWidget].
-  const NavigationCancelButton({
-    super.key,
-  }) : super(
-          onPressed: _navigationBack,
-        );
-
-  static void _navigationBack(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-}
