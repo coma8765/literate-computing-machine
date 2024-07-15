@@ -1,4 +1,69 @@
 PODS:
+  - appmetrica_plugin (2.1.1):
+    - AppMetricaAnalytics (~> 5.3)
+    - Flutter
+  - AppMetricaAdSupport (5.6.0):
+    - AppMetricaCore (= 5.6.0)
+    - AppMetricaCoreExtension (= 5.6.0)
+  - AppMetricaAnalytics (5.6.0):
+    - AppMetricaAdSupport (= 5.6.0)
+    - AppMetricaCore (= 5.6.0)
+    - AppMetricaCrashes (= 5.6.0)
+    - AppMetricaWebKit (= 5.6.0)
+  - AppMetricaCore (5.6.0):
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaEncodingUtils (= 5.6.0)
+    - AppMetricaFMDB (= 5.6.0)
+    - AppMetricaHostState (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+    - AppMetricaNetwork (= 5.6.0)
+    - AppMetricaPlatform (= 5.6.0)
+    - AppMetricaProtobuf (= 5.6.0)
+    - AppMetricaProtobufUtils (= 5.6.0)
+    - AppMetricaStorageUtils (= 5.6.0)
+  - AppMetricaCoreExtension (5.6.0):
+    - AppMetricaCore (= 5.6.0)
+    - AppMetricaStorageUtils (= 5.6.0)
+  - AppMetricaCoreUtils (5.6.0):
+    - AppMetricaLog (= 5.6.0)
+  - AppMetricaCrashes (5.6.0):
+    - AppMetricaCore (= 5.6.0)
+    - AppMetricaCoreExtension (= 5.6.0)
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaEncodingUtils (= 5.6.0)
+    - AppMetricaHostState (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+    - AppMetricaPlatform (= 5.6.0)
+    - AppMetricaProtobufUtils (= 5.6.0)
+    - AppMetricaStorageUtils (= 5.6.0)
+    - KSCrash/Recording (~> 1.17.0)
+    - KSCrash/Recording/Tools
+  - AppMetricaEncodingUtils (5.6.0):
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+    - AppMetricaPlatform (= 5.6.0)
+  - AppMetricaFMDB (5.6.0)
+  - AppMetricaHostState (5.6.0):
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+  - AppMetricaLog (5.6.0)
+  - AppMetricaNetwork (5.6.0):
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+    - AppMetricaPlatform (= 5.6.0)
+  - AppMetricaPlatform (5.6.0):
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+  - AppMetricaProtobuf (5.6.0)
+  - AppMetricaProtobufUtils (5.6.0):
+    - AppMetricaProtobuf (= 5.6.0)
+  - AppMetricaStorageUtils (5.6.0):
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
+  - AppMetricaWebKit (5.6.0):
+    - AppMetricaCore (= 5.6.0)
+    - AppMetricaCoreUtils (= 5.6.0)
+    - AppMetricaLog (= 5.6.0)
   - connectivity_plus (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -144,6 +209,9 @@ PODS:
   - GoogleUtilities/UserDefaults (7.13.3):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
+  - KSCrash/Recording (1.17.4):
+    - KSCrash/Recording/Tools (= 1.17.4)
+  - KSCrash/Recording/Tools (1.17.4)
   - nanopb (2.30910.0):
     - nanopb/decode (= 2.30910.0)
     - nanopb/encode (= 2.30910.0)
@@ -164,6 +232,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - appmetrica_plugin (from `.symlinks/plugins/appmetrica_plugin/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -176,6 +245,22 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppMetricaAdSupport
+    - AppMetricaAnalytics
+    - AppMetricaCore
+    - AppMetricaCoreExtension
+    - AppMetricaCoreUtils
+    - AppMetricaCrashes
+    - AppMetricaEncodingUtils
+    - AppMetricaFMDB
+    - AppMetricaHostState
+    - AppMetricaLog
+    - AppMetricaNetwork
+    - AppMetricaPlatform
+    - AppMetricaProtobuf
+    - AppMetricaProtobufUtils
+    - AppMetricaStorageUtils
+    - AppMetricaWebKit
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -191,12 +276,15 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - KSCrash
     - nanopb
     - PromisesObjC
     - PromisesSwift
     - Sentry
 
 EXTERNAL SOURCES:
+  appmetrica_plugin:
+    :path: ".symlinks/plugins/appmetrica_plugin/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/darwin"
   firebase_analytics:
@@ -217,6 +305,23 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
+  appmetrica_plugin: d5b67180992259ecfa040189027808915101b893
+  AppMetricaAdSupport: 64565ca6121189e571c686e9476af79385f35117
+  AppMetricaAnalytics: d604235f09b7744b4deaa75d78590eac48bb051e
+  AppMetricaCore: ab504a62db40fb388080a8eff69f1dc91d8d84d1
+  AppMetricaCoreExtension: 07f8436f4a2a9abd64f8ac09dd3304d810886ebd
+  AppMetricaCoreUtils: 85df2c9a765d68ec7655a80feb84c8cf21ed3674
+  AppMetricaCrashes: 4637f2f85adc71e0a096b753b7f9d1d1761b3ad2
+  AppMetricaEncodingUtils: d769d76639960c4f495067b1f68c8874186ed96d
+  AppMetricaFMDB: cafb143a494738be6cbd767d703b376ffbeb5c92
+  AppMetricaHostState: 68d333f2ae460a117e498b09120fdcee708ac240
+  AppMetricaLog: 319461a3fcd77332024311e109c82ce32fac4e38
+  AppMetricaNetwork: 7a592d9b5ba4a2973d7219b8c933ba744847172a
+  AppMetricaPlatform: c1fa9e83be342d2f173d878da99996d9e06f34b3
+  AppMetricaProtobuf: 2ec9b9fb300c7b06406858f1d4d53301ed65a3ea
+  AppMetricaProtobufUtils: c87c770b2f42b24d88f6cbeeca85d5431190d233
+  AppMetricaStorageUtils: 3ae99b72caa97624177bc7b223b593bc6e6d3956
+  AppMetricaWebKit: 9abb954ee9a73f4d36169671b33efbce13042952
   connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   Firebase: 5121c624121af81cbc81df3bda414b3c28c4f3c3
   firebase_analytics: e51d02e2da883fd058f2a4f151f6a80acdfe67aa
@@ -238,6 +343,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 55a4a3c8000c1280d68bf4c084adbfef20c49db1
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
+  KSCrash: 158a0998f08ae7d4e54ef8a2da62d6e08b46d03a
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47

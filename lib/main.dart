@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:analytics/analytics_reporters.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -26,6 +27,7 @@ void main() async {
   // Start application bootstrap process
   bootstrap(
     getConfigSource: _configSource,
+    getAnalyticsReporter: _getAnalyticsReporter,
     getDio: _getDio,
     getTodosApis: _getTodosApis,
     getNetworkStateProducers: _getNetworkStateProducers,
@@ -52,6 +54,10 @@ void _todosApisSync(List<TodosApi> todosApis) {
   AutoSyncMultipleRepository(todosApis: todosApis).periodic();
 }
 
+Analytics _getAnalyticsReporter(Config config) {
+  return AppMetricaReporter(token: config.appMetricaToken);
+}
+
 Future<ConfigSource> _configSource() async {
   // final dotenvConfig = DotenvConfigSource();
   //
@@ -69,6 +75,7 @@ Dio _getDio(Config config) {
   final dio = getDio(
     apiUrl: config.apiUrl,
     apiToken: config.apiToken,
+    failsPercent: 0,
   );
 
   addExponentialBackoffDio(dio);

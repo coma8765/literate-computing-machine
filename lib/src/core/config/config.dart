@@ -30,6 +30,7 @@ class Config with _$Config {
     required String sentryDsn,
     required String apiUrl,
     required String apiToken,
+    required String appMetricaToken,
     required ThemeOverrides themeOverrides,
   }) = _Config;
 
@@ -50,6 +51,10 @@ class Config with _$Config {
   static ThemeOverrides themeOverridesOf(BuildContext context) =>
       ConfigProvider.of(context, aspect: ConfigAspects.themeOverrides)
           .themeOverrides;
+
+  static String appMetricaTokenOf(BuildContext context) =>
+      ConfigProvider.of(context, aspect: ConfigAspects.appMetricaToken)
+          .appMetricaToken;
 }
 
 enum ConfigAspects {
@@ -57,4 +62,5 @@ enum ConfigAspects {
   apiUrl,
   apiToken,
   themeOverrides,
+  appMetricaToken,
 }

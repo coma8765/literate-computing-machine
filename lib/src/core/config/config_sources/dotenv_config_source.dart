@@ -23,6 +23,7 @@ class DotenvConfigSource extends ConfigSource {
         sentryDsn: dotenv.env['SENTRY_DSN'] ?? '',
         apiUrl: dotenv.env['API_URI'] ?? '',
         apiToken: dotenv.env['API_AUTH'] ?? '',
+        appMetricaToken: dotenv.env['APPMETRICA_TOKEN'] ?? '',
         themeOverrides: ThemeOverrides(
           importanceColor:
               dotenv.env.containsKey('THEME_OVERRIDE_IMPORTANT_COLOR')

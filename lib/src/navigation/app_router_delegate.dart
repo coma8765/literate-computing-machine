@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:todo/src/core/theme/color_theme.dart';
 import 'package:todo/src/navigation/app_router_config.dart';
@@ -7,11 +8,14 @@ import 'package:uuid/uuid.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouterConfig> {
-  AppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>() {
+  AppRouterDelegate({
+    required this.analytics,
+  }) : _navigatorKey = GlobalKey<NavigatorState>() {
     assert(AppRouterConfig.home() == currentConfiguration, '????');
   }
 
   final GlobalKey<NavigatorState> _navigatorKey;
+  final Analytics analytics;
 
   AppRouterConfig _currentState = AppRouterConfig.home();
 
@@ -28,7 +32,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
     return Navigator(
       key: navigatorKey,
       onPopPage: (Route<Object?> page, _) {
-        _currentState = AppRouterConfig.home();
+        setNewRoutePath(AppRouterConfig.home());
         notifyListeners();
         return true;
       },
@@ -57,15 +61,16 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
   @override
   Future<void> setNewRoutePath(AppRouterConfig configuration) async {
     _currentState = configuration;
+    await analytics.reportOpenUri(uri: _currentState.uri.toString());
   }
 
   void editTodoTrigger(String? todoId) {
-    _currentState = AppRouterConfig.editTodo(todoId);
+    setNewRoutePath(AppRouterConfig.editTodo(todoId));
     notifyListeners();
   }
 
   void homeTrigger() {
-    _currentState = AppRouterConfig.home();
+    setNewRoutePath(AppRouterConfig.home());
     notifyListeners();
   }
 

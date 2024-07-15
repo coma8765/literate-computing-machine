@@ -70,6 +70,7 @@ class FirebaseRemoteConfigSource extends ConfigSource {
       sentryDsn: _remoteConfig.getString('SENTRY_DSN'),
       apiUrl: _remoteConfig.getString('API_URI'),
       apiToken: _remoteConfig.getString('API_AUTH'),
+      appMetricaToken: _remoteConfig.getString('APPMETRICA_TOKEN'),
       themeOverrides: themeOverrides,
     );
 
