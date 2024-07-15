@@ -31,21 +31,17 @@ class TodoPage extends StatelessWidget {
         analytics: Analytics.of(context),
       )..loadTodo(),
       lazy: false,
-      child: Builder(
-        builder: (context) {
-          return BlocBuilder<EditTodoCubit, EditTodoState>(
-            builder: (context, state) {
-              if (state is EditTodoEditableState) {
-                return const TODOView();
-              }
+      child: BlocBuilder<EditTodoCubit, EditTodoState>(
+        builder: (context, state) {
+          if (state is EditTodoEditableState) {
+            return const TODOView();
+          }
 
-              if (state is EditTodoLoadingState) {
-                return const CupertinoActivityIndicator();
-              }
+          if (state is EditTodoLoadingState) {
+            return const CupertinoActivityIndicator();
+          }
 
-              return Container();
-            },
-          );
+          return Container();
         },
       ),
     );

@@ -79,4 +79,14 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
     super.dispose();
     removeListener(notifyListeners);
   }
+
+  static AppRouterDelegate of(BuildContext context) {
+    final delegate = Router.of(context).routerDelegate;
+    assert(
+      delegate is AppRouterDelegate,
+      "unable get AppRouterDelegate if they don't used",
+    );
+
+    return delegate as AppRouterDelegate;
+  }
 }

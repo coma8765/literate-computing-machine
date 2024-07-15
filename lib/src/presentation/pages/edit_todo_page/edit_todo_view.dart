@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
+import 'package:todo/src/navigation/app_router_delegate.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
 import 'package:todo/src/presentation/pages/edit_todo_page/widgets/widgets.dart';
 import 'package:todo/src/presentation/widgets/buttons/buttons.dart';
@@ -53,25 +54,11 @@ class TODOView extends StatelessWidget {
             navigationBar: CupertinoNavigationBar(
               padding: _kNavBarPadding,
               middle: Text(context.l10n.editPageTitle),
-              leading: const NavigationCancelButton(),
-              trailing: BlocBuilder<EditTodoCubit, EditTodoState>(
-                builder: (context, state) {
-                  assert(
-                    state is EditTodoEditableState,
-                    'unable build without editable state',
-                  );
-
-                  final todo = (state as EditTodoEditableState).todo;
-
-                  return SaveButton(
-                    onPressed: todo != state.initialTodo
-                        ? () => saveTodo(context, todo)
-                        : null,
-                    padding: EdgeInsetsDirectional.zero,
-                  );
-                },
+              leading: CancelButton(
+                onPressed: (context) =>
+                    AppRouterDelegate.of(context).homeTrigger(),
               ),
-              // padding: EdgeInsetsDirectional.zero,
+              trailing: _SaveButton(saveTodo: saveTodo),
               backgroundColor: backgroundColor,
             ),
             backgroundColor: backgroundColor,
@@ -82,6 +69,31 @@ class TODOView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  const _SaveButton({required this.saveTodo});
+
+  final Future<void> Function(BuildContext, Todo) saveTodo;
+
+  @override
+  Widget build(BuildContext context) {
+    final state =
+        context.watch<EditTodoCubit?>()?.state as EditTodoEditableState?;
+
+    late Future<void> Function()? onPressed;
+
+    if (state == null || state.initialTodo == state.todo) {
+      onPressed = null;
+    } else {
+      onPressed = () => saveTodo(context, state.todo);
+    }
+
+    return SaveButton(
+      onPressed: onPressed,
+      padding: EdgeInsetsDirectional.zero,
     );
   }
 }

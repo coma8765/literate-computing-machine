@@ -12,6 +12,7 @@ const _pageHeightPercent = 0.4;
 /// in iOS Cupertino style
 Future<DateTime?> iOSDatePick(BuildContext context) {
   return showCupertinoModalPopup<DateTime?>(
+    useRootNavigator: false,
     context: context,
     builder: (_) => const _IOSDatePicker(),
   );
@@ -58,7 +59,9 @@ class _IOSDatePickerState extends State<_IOSDatePicker> {
           borderRadius: _popupBorderRadius,
           child: CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              leading: const NavigationCancelButton(),
+              leading: CancelButton(
+                onPressed: (context) => Navigator.of(context).pop(),
+              ),
               trailing: SaveButton(
                 onPressed: _complete,
                 padding: EdgeInsetsDirectional.zero,
