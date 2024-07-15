@@ -132,7 +132,7 @@ jobs:
         run: flutter clean
         timeout-minutes: 5
       - name: Building
-        run: flutter build appbundle --profile --verbose
+        run: flutter build appbundle --profile --verbose --flavor development
         timeout-minutes: 10
       - name: Store artifact's name
         id: artifact-name

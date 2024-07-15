@@ -4,6 +4,7 @@ import 'package:analytics/analytics.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:network_state_provider/network_state_provider.dart';
@@ -45,7 +46,7 @@ void bootstrap({
   /// Callback that start apis synchronization process
   void Function(List<TodosApi>)? todosApiSync,
 }) {
-  final logger = Logger('bootstrap');
+  final logger = Logger('bootstrap($appFlavor)');
 
   runZonedGuarded(
     () async {

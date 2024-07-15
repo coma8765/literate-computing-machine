@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:todo/src/core/core.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -21,7 +22,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        return isProduction ? androidProduction : androidDevelopment;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -56,9 +57,17 @@ class DefaultFirebaseOptions {
     measurementId: 'G-4EBBQXBH45',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static const FirebaseOptions androidProduction = FirebaseOptions(
     apiKey: 'AIzaSyDprveJB251_90wiG8BZGD_4y76Neewvjo',
     appId: '1:568139536946:android:c3099e3d96b05266567a2b',
+    messagingSenderId: '568139536946',
+    projectId: 'dev-coma8765-todos',
+    storageBucket: 'dev-coma8765-todos.appspot.com',
+  );
+
+  static const FirebaseOptions androidDevelopment = FirebaseOptions(
+    apiKey: 'AIzaSyDprveJB251_90wiG8BZGD_4y76Neewvjo',
+    appId: '1:568139536946:android:3ca25407c950ea5f567a2b',
     messagingSenderId: '568139536946',
     projectId: 'dev-coma8765-todos',
     storageBucket: 'dev-coma8765-todos.appspot.com',
