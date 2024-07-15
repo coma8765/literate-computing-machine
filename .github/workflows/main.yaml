@@ -134,18 +134,29 @@ jobs:
       - name: Building
         run: flutter build appbundle --profile --verbose
         timeout-minutes: 10
+      - name: Store artifact's name
+        id: artifact-name
+        env:
+          REF: ${{ github.ref }}
+        run: echo "::set-output name=value::appbundle-${REF////-}"
       - name: 'Archive android profile build, appbundle'
         uses: actions/upload-artifact@v4
         with:
-          name: profile-appbundle
+          name: ${{ steps.artifact-name.outputs.value }}
           path: build/app/outputs/bundle/profile/app-profile.aab
   distribute-for-testers:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     needs: [ build ]
     steps:
+      - name: Store artifact's name
+        id: artifact-name
+        env:
+          REF: ${{ github.ref }}
+        run: echo "::set-output name=value::appbundle-${REF////-}"
       - name: Download a profile appbundle
         uses: actions/download-artifact@v4
         with:
-          name: profile-appbundle
+          name: ${{ steps.artifact-name.outputs.value }}
       - name: Distribute app
         run: curl -X PUT --http1.1 -F 'app=@./app-profile.aab' ${{ secrets.GETUPDRAFT_DISTRIBUTE_APP_ALPHA_URI }}
