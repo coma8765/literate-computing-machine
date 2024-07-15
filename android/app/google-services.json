@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:568139536946:android:ab543b726bcbd8b2567a2b",
+        "mobilesdk_app_id": "1:568139536946:android:c3099e3d96b05266567a2b",
         "android_client_info": {
-          "package_name": "dev.coma8765.todo"
+          "package_name": "dev.coma8765.todos"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:568139536946:android:c3099e3d96b05266567a2b",
+        "mobilesdk_app_id": "1:568139536946:android:3ca25407c950ea5f567a2b",
         "android_client_info": {
-          "package_name": "dev.coma8765.todos"
+          "package_name": "dev.coma8765.todos.dev"
         }
       },
       "oauth_client": [],
