@@ -1,2 +1,2 @@
+export 'app_dio.dart';
 export 'exponential_backoff_dio.dart';
-export 'get_dio.dart';
