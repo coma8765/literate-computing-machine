@@ -63,10 +63,12 @@ Future<ConfigSource> _configSource() async {
 }
 
 Dio _getDio(Config config) {
-  final dio = getDio(
-    apiUrl: config.apiUrl,
-    apiToken: config.apiToken,
-    failsPercent: 0,
+  final dio = AppDio.factoryDio(
+    option: AppDioOption(
+      apiUrl: config.apiUrl,
+      apiToken: config.apiToken,
+      failsPercent: 0,
+    ),
   );
 
   addExponentialBackoffDio(dio);
