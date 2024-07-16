@@ -30,7 +30,7 @@ jobs:
         run: very_good packages get --recursive
         timeout-minutes: 4
       - name: Format
-        run: dart format . --set-exit-if-changed
+        run: flutter analyze
         timeout-minutes: 10
   format:
     runs-on: ubuntu-latest
