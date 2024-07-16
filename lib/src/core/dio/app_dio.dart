@@ -19,16 +19,7 @@ class AppDioOption with _$AppDioOption {
 
 /// Application dio factory
 class AppDio {
-  static Dio? _dio;
-
-  static Dio factoryDio({AppDioOption? option}) {
-    if (_dio != null) {
-      return _dio!;
-    }
-
-    assert(option != null, 'cannot initialize Dio without config');
-    if (option == null) return Dio();
-
+  static Dio factoryDio({required AppDioOption option}) {
     final headers = {
       HttpHeaders.authorizationHeader: option.apiToken,
       'X-Generate-Fails': option.apiToken,
@@ -47,6 +38,6 @@ class AppDio {
 
     dio.interceptors.addAll(option.interceptors);
 
-    return _dio ??= dio;
+    return dio;
   }
 }
