@@ -7,7 +7,7 @@ const _minHeight = 120.0;
 const _textPadding = EdgeInsets.all(16.0);
 
 /// A Text Field
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   /// This class creates an instance of [StatelessWidget].
   const CustomTextField({
     required Color backgroundBackground,
@@ -21,39 +21,62 @@ class CustomTextField extends StatelessWidget {
   final void Function(String value)? onChanged;
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late final FocusNode _focusNode;
+
+  @override
   Widget build(BuildContext context) {
     final cursorColor = AppColors.blue.resolveFrom(context);
     final backgroundBackground = CupertinoDynamicColor.resolve(
-      _backgroundBackground,
+      widget._backgroundBackground,
       context,
     );
 
-    return Container(
-      constraints: const BoxConstraints(minHeight: _minHeight),
-      decoration: BoxDecoration(
-        color: backgroundBackground,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(16.0),
-        ),
-      ),
-      child: Padding(
-        padding: _textPadding,
-        child: CupertinoTextFormFieldRow(
-          initialValue: initialValue,
-          decoration: const BoxDecoration(
-            color: WidgetStateColor.transparent,
+    return GestureDetector(
+      onTap: _focusNode.requestFocus,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: _minHeight),
+        decoration: BoxDecoration(
+          color: backgroundBackground,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(16.0),
           ),
-          padding: EdgeInsetsDirectional.zero,
-          maxLines: _maxLines,
-          cursorColor: cursorColor,
-          minLines: 1,
-          placeholder: context.l10n.editTodoTextFieldPlaceholder,
-          textAlignVertical: TextAlignVertical.top,
-          onChanged: onChanged,
-          // onSaved: (text) => onChanged?.call(text ?? ''),
-          // onEditingComplete: onChanged,
+        ),
+        child: Padding(
+          padding: _textPadding,
+          child: CupertinoTextFormFieldRow(
+            focusNode: _focusNode,
+            initialValue: widget.initialValue,
+            decoration: const BoxDecoration(
+              color: WidgetStateColor.transparent,
+            ),
+            padding: EdgeInsetsDirectional.zero,
+            maxLines: _maxLines,
+            cursorColor: cursorColor,
+            minLines: 1,
+            placeholder: context.l10n.editTodoTextFieldPlaceholder,
+            textAlignVertical: TextAlignVertical.top,
+            onChanged: widget.onChanged,
+            // onSaved: (text) => onChanged?.call(text ?? ''),
+            // onEditingComplete: onChanged,
+          ),
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
   }
 }
