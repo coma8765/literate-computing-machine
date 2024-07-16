@@ -10,9 +10,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouterConfig> {
   AppRouterDelegate({
     required this.analytics,
-  }) : _navigatorKey = GlobalKey<NavigatorState>() {
-    assert(AppRouterConfig.home() == currentConfiguration, '????');
-  }
+  }) : _navigatorKey = GlobalKey<NavigatorState>();
 
   final GlobalKey<NavigatorState> _navigatorKey;
   final Analytics analytics;

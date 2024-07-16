@@ -59,16 +59,7 @@ Analytics _getAnalyticsReporter(Config config) {
 }
 
 Future<ConfigSource> _configSource() async {
-  // final dotenvConfig = DotenvConfigSource();
-  //
-  // await dotenvConfig.init();
-  // dotenvConfig.dispose();
-  //
-  // final defaultConfig = dotenvConfig.getSingleConfig();
-
-  return FirebaseRemoteConfigSource(
-      // defaultConfig: defaultConfig,
-      );
+  return FirebaseRemoteConfigSource();
 }
 
 Dio _getDio(Config config) {

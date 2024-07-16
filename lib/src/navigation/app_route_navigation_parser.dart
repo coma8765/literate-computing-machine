@@ -28,18 +28,5 @@ class AppRouterParser extends RouteInformationParser<AppRouterConfig> {
   @override
   RouteInformation restoreRouteInformation(AppRouterConfig configuration) {
     return RouteInformation(uri: configuration.uri);
-    // if (config.isUnknown) {
-    //   return RouteInformation(uri: AppRouterConfig.unknown().uri);
-    // }
-    //
-    // if (config.isHome) {
-    //   return RouteInformation(uri: AppRouterConfig.home().uri);
-    // }
-    //
-    // if (config.isEditTodo) {
-    //   return RouteInformation(
-    //     uri: AppRouterConfig.editTodo(config.todoId).uri,
-    //   );
-    // }
   }
 }
