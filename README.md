@@ -126,4 +126,4 @@ flutter build linux
 
 ## APK файлы
 
-Тут [релиз](https://github.com/coma8765/literate-computing-machine/releases/tag/part-03).
+Тут [релиз](https://github.com/coma8765/literate-computing-machine/releases).
