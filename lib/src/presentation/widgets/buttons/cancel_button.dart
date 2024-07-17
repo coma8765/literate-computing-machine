@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 
-const _text = 'Отменить';
-
 /// A cancel button
 class CancelButton extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
@@ -33,19 +31,5 @@ class CancelButton extends StatelessWidget {
         style: textStyle,
       ),
     );
-  }
-}
-
-/// A navigation back button
-class NavigationCancelButton extends CancelButton {
-  /// This class creates an instance of [StatelessWidget].
-  const NavigationCancelButton({
-    super.key,
-  }) : super(
-          onPressed: _navigationBack,
-        );
-
-  static void _navigationBack(BuildContext context) {
-    Navigator.of(context).pop();
   }
 }

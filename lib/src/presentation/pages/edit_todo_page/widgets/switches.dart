@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
 import 'package:todo/src/domain/domain.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
 import 'package:todo/src/presentation/widgets/date_picker/date_picker.dart';
+import 'package:todo/src/presentation/widgets/icons/importance_high_icon.dart';
+import 'package:todo/src/presentation/widgets/icons/importance_low_icon.dart';
 import 'package:todo/src/presentation/widgets/multi_toggle_switch/multi_toggle_switch.dart';
 import 'package:todo/src/presentation/widgets/toggle_switch/toggle_switch.dart';
 
@@ -81,12 +82,7 @@ class _ImportantSwitchTile extends _SwitchTile {
           }) {
             switch (index) {
               case 0:
-                return SvgPicture.asset(
-                  'assets/svg/priority-low.svg',
-                  height: 20.0,
-                  width: 16.0,
-                  fit: BoxFit.none,
-                );
+                return const ImportanceLowIcon();
               case 1:
                 final textStyle = AppTextStyles.subhead.copyWith(
                   fontWeight: FontWeight.w500,
@@ -104,12 +100,7 @@ class _ImportantSwitchTile extends _SwitchTile {
                 );
 
               case 2:
-                return SvgPicture.asset(
-                  'assets/svg/priority-high.svg',
-                  height: 20.0,
-                  width: 16.0,
-                  fit: BoxFit.none,
-                );
+                return const ImportanceHighIcon();
             }
 
             return const Placeholder(child: Text('???'));

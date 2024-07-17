@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:todo/src/core/theme/color_theme.dart';
 import 'package:todo/src/navigation/app_router_config.dart';
@@ -7,11 +8,12 @@ import 'package:uuid/uuid.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouterConfig> {
-  AppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>() {
-    assert(AppRouterConfig.home() == currentConfiguration, '????');
-  }
+  AppRouterDelegate({
+    required this.analytics,
+  }) : _navigatorKey = GlobalKey<NavigatorState>();
 
   final GlobalKey<NavigatorState> _navigatorKey;
+  final Analytics analytics;
 
   AppRouterConfig _currentState = AppRouterConfig.home();
 
@@ -27,8 +29,10 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      onDidRemovePage: (Page<Object?> page) {
-        _currentState = AppRouterConfig.home();
+      onPopPage: (Route<Object?> page, _) {
+        setNewRoutePath(AppRouterConfig.home());
+        notifyListeners();
+        return true;
       },
       pages: [
         const CupertinoPage(
@@ -55,15 +59,16 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
   @override
   Future<void> setNewRoutePath(AppRouterConfig configuration) async {
     _currentState = configuration;
+    await analytics.reportOpenUri(uri: _currentState.uri.toString());
   }
 
   void editTodoTrigger(String? todoId) {
-    _currentState = AppRouterConfig.editTodo(todoId);
+    setNewRoutePath(AppRouterConfig.editTodo(todoId));
     notifyListeners();
   }
 
   void homeTrigger() {
-    _currentState = AppRouterConfig.home();
+    setNewRoutePath(AppRouterConfig.home());
     notifyListeners();
   }
 
@@ -71,5 +76,15 @@ class AppRouterDelegate extends RouterDelegate<AppRouterConfig>
   void dispose() {
     super.dispose();
     removeListener(notifyListeners);
+  }
+
+  static AppRouterDelegate of(BuildContext context) {
+    final delegate = Router.of(context).routerDelegate;
+    assert(
+      delegate is AppRouterDelegate,
+      "unable get AppRouterDelegate if they don't used",
+    );
+
+    return delegate as AppRouterDelegate;
   }
 }

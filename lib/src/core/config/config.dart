@@ -1,29 +1,66 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Config {
-  factory Config() {
-    _singleton ??= Config._(
-      sentryDsn: dotenv.env['SENTRY_DSN'] ?? '',
-      apiUrl: dotenv.env['API_URI'] ?? '',
-      apiToken: dotenv.env['API_AUTH'] ?? '',
-    );
+import 'package:todo/src/core/config/config_provider.dart';
 
-    return _singleton!;
-  }
+export 'config_provider.dart';
+export 'config_sources/config_source.dart';
 
-  Config._({
-    required this.sentryDsn,
-    required this.apiUrl,
-    required this.apiToken,
-  });
+part 'config.freezed.dart';
 
-  static Config? _singleton;
+part 'config.g.dart';
 
-  final String sentryDsn;
-  final String apiUrl;
-  final String apiToken;
+@freezed
+class ThemeOverrides with _$ThemeOverrides {
+  const factory ThemeOverrides({
+    int? importanceColor,
+  }) = _ThemeOverrides;
 
-  static Future<void> init() {
-    return dotenv.load();
-  }
+  factory ThemeOverrides.fromJson(Map<String, dynamic> json) =>
+      _$ThemeOverridesFromJson(json);
+
+  static ThemeOverrides of(BuildContext context) =>
+      Config.themeOverridesOf(context);
+}
+
+@freezed
+class Config with _$Config {
+  const factory Config({
+    required String sentryDsn,
+    required String apiUrl,
+    required String apiToken,
+    required String appMetricaToken,
+    required ThemeOverrides themeOverrides,
+  }) = _Config;
+
+  factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
+
+  static Config of(BuildContext context, {required ConfigAspects aspect}) =>
+      ConfigProvider.of(context, aspect: aspect);
+
+  static String sentryDsnOf(BuildContext context) =>
+      ConfigProvider.of(context, aspect: ConfigAspects.sentryDsn).sentryDsn;
+
+  static String apiUrlOf(BuildContext context) =>
+      ConfigProvider.of(context, aspect: ConfigAspects.apiUrl).apiUrl;
+
+  static String apiTokenOf(BuildContext context) =>
+      ConfigProvider.of(context, aspect: ConfigAspects.apiToken).apiToken;
+
+  static ThemeOverrides themeOverridesOf(BuildContext context) =>
+      ConfigProvider.of(context, aspect: ConfigAspects.themeOverrides)
+          .themeOverrides;
+
+  static String appMetricaTokenOf(BuildContext context) =>
+      ConfigProvider.of(context, aspect: ConfigAspects.appMetricaToken)
+          .appMetricaToken;
+}
+
+enum ConfigAspects {
+  sentryDsn,
+  apiUrl,
+  apiToken,
+  themeOverrides,
+  appMetricaToken,
 }

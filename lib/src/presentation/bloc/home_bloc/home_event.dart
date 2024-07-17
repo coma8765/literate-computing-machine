@@ -31,17 +31,6 @@ final class HomeTodoDeleted extends HomeEvent {
   List<Object> get props => [todo];
 }
 
-final class HomeTodoSave extends HomeEvent {
-  const HomeTodoSave({
-    required this.todo,
-  });
-
-  final Todo todo;
-
-  @override
-  List<Object?> get props => [todo];
-}
-
 final class HomeTodoDoneToggled extends HomeEvent {
   const HomeTodoDoneToggled({
     required this.todo,

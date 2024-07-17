@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/l10n/l10n.dart';
 import 'package:todo/src/core/theme/theme.dart';
+import 'package:todo/src/domain/domain.dart';
+import 'package:todo/src/navigation/app_router_delegate.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
 import 'package:todo/src/presentation/pages/edit_todo_page/widgets/widgets.dart';
 import 'package:todo/src/presentation/widgets/buttons/buttons.dart';
-import 'package:todos_repository/todos_repository.dart';
 
 const _pageBorderRadius = BorderRadius.vertical(top: Radius.circular(12.0));
 const _kNavBarPadding = EdgeInsetsDirectional.symmetric(horizontal: 16.0);
@@ -20,6 +21,10 @@ class TODOView extends StatelessWidget {
   /// This class creates an instance of [StatelessWidget].
   const TODOView({super.key});
 
+  Future<void> saveTodo(BuildContext context, Todo todo) async {
+    await context.read<EditTodoCubit>().saveAction();
+  }
+
   @override
   Widget build(BuildContext context) {
     final backgroundColor = AppColors.back.primary.resolveFrom(context);
@@ -32,6 +37,8 @@ class TODOView extends StatelessWidget {
         blurRadius: 7,
       ),
     ];
+
+    final editTodoCubit = context.read<EditTodoCubit>();
 
     return SafeArea(
       bottom: false,
@@ -47,30 +54,17 @@ class TODOView extends StatelessWidget {
             navigationBar: CupertinoNavigationBar(
               padding: _kNavBarPadding,
               middle: Text(context.l10n.editPageTitle),
-              leading: const NavigationCancelButton(),
-              trailing: BlocBuilder<EditTodoCubit, EditTodoState>(
-                builder: (context, state) {
-                  assert(
-                    state is EditTodoEditableState,
-                    'unable build without editable state',
-                  );
-
-                  return SaveButton(
-                    onPressed: (state as EditTodoEditableState).todo !=
-                            state.initialTodo
-                        ? () => context.read<EditTodoCubit>().saveAction()
-                        : null,
-                    padding: EdgeInsetsDirectional.zero,
-                  );
-                },
+              leading: CancelButton(
+                onPressed: (context) =>
+                    AppRouterDelegate.of(context).homeTrigger(),
               ),
-              // padding: EdgeInsetsDirectional.zero,
+              trailing: _SaveButton(saveTodo: saveTodo),
               backgroundColor: backgroundColor,
             ),
             backgroundColor: backgroundColor,
-            child: const Padding(
+            child: Padding(
               padding: _pageContentPadding,
-              child: _TODOEdit(),
+              child: _TODOEdit(editTodoCubit: editTodoCubit),
             ),
           ),
         ),
@@ -79,29 +73,57 @@ class TODOView extends StatelessWidget {
   }
 }
 
+class _SaveButton extends StatelessWidget {
+  const _SaveButton({required this.saveTodo});
+
+  final Future<void> Function(BuildContext, Todo) saveTodo;
+
+  @override
+  Widget build(BuildContext context) {
+    final state =
+        context.watch<EditTodoCubit?>()?.state as EditTodoEditableState?;
+
+    late Future<void> Function()? onPressed;
+
+    if (state == null || state.initialTodo == state.todo) {
+      onPressed = null;
+    } else {
+      onPressed = () => saveTodo(context, state.todo);
+    }
+
+    return SaveButton(
+      onPressed: onPressed,
+      padding: EdgeInsetsDirectional.zero,
+    );
+  }
+}
+
 class _TODOEdit extends StatelessWidget {
-  const _TODOEdit();
+  const _TODOEdit({required this.editTodoCubit});
+
+  final EditTodoCubit editTodoCubit;
+
+  Future<void> deleteTodo(BuildContext context) async {
+    Navigator.of(context).pop();
+
+    await editTodoCubit.deleteAction();
+  }
 
   @override
   Widget build(BuildContext context) {
     final backgroundBackground = AppColors.back.secondary.resolveFrom(context);
 
-    final cubit = context.read<EditTodoCubit>();
+    final state = editTodoCubit.state as EditTodoEditableState;
 
     final fields = [
       CustomTextField(
         backgroundBackground: backgroundBackground,
-        initialValue: (cubit.state as EditTodoEditableState).initialTodo.text,
-        onChanged: cubit.setText,
+        initialValue: state.initialTodo.text,
+        onChanged: editTodoCubit.setText,
       ),
       const Switches(),
       CustomButton.filled(
-        onPressed: () {
-          context.read<TodosRepository>().deleteTodo(
-                (cubit.state as EditTodoEditableState).initialTodo.id,
-              );
-          Navigator.of(context).pop();
-        },
+        onPressed: () => deleteTodo(context),
         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
         child: Text(context.l10n.removeText),
       ),

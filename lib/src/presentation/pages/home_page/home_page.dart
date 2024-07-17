@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/src/presentation/bloc/bloc.dart';
@@ -12,6 +13,7 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(
         todosRepository: context.read<TodosRepository>(),
+        analytics: Analytics.of(context),
       )..add(const HomeSubscriptionRequested()),
       child: const HomeView(),
     );

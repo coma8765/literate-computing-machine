@@ -35,6 +35,7 @@ linter:
   rules:
     prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
     public_member_api_docs: false
+    flutter_style_todos: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

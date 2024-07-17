@@ -12,11 +12,11 @@ class _DioStateInterceptor extends Interceptor {
   final void Function() _onSuccessCallback;
   final void Function() _onErrorCallback;
 
-  // @override
-  // void onError(DioException err, ErrorInterceptorHandler handler) {
-  //   _onErrorCallback();
-  //   super.onError(err, handler);
-  // }
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    _onErrorCallback();
+    super.onError(err, handler);
+  }
 
   @override
   void onResponse(

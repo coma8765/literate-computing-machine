@@ -121,19 +121,5 @@ class LocalStorageTodosApi extends TodosApi {
     }).toList();
 
     await _setValue(kTodosCollectionKey, jsonEncode(todosToSave));
-
-    // final todos = lastWriteWinsSync(
-    //   oldTodos: _todoStreamController.value,
-    //   unsynchronizedTodos: unsynchronizedTodos,
-    // )
-    //     .map(
-    //       (todo) => todo.copyWith(
-    //         isSynced: true,
-    //         changedAt: todo.changedAt,
-    //       ),
-    //     )
-    //     .toList();
-    //
-    // await _setValue(kTodosCollectionKey, jsonEncode(todos));
   }
 }

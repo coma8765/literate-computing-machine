@@ -21,11 +21,11 @@ class AutoSyncMultipleRepository {
       return;
     }
 
-    _logger.info('sync started');
+    _logger.config('sync started');
     _processing = true;
     try {
       await _sync();
-      _logger.info('sync success');
+      _logger.finer('sync success');
     } catch (e, stack) {
       _logger.info('sync failed, got $e', e, stack);
     } finally {
@@ -34,7 +34,7 @@ class AutoSyncMultipleRepository {
   }
 
   Future<void> trySyncUntilDone() async {
-    bool success = false;
+    var success = false;
 
     while (!success) {
       try {
@@ -51,7 +51,7 @@ class AutoSyncMultipleRepository {
   }
 
   Timer periodic({Duration interval = const Duration(seconds: 30)}) {
-    _logger.info('add scheduler, interval=$interval');
+    _logger.fine('add scheduler, interval=$interval');
 
     var called = false;
     return Timer.periodic(
@@ -89,7 +89,7 @@ class AutoSyncMultipleRepository {
 
     final countUnsynchronizedTodos = todos.where((t) => !t.isSynced).length;
 
-    _logger.info('got unsynchronizedTodos(len=$countUnsynchronizedTodos)');
+    _logger.finer('got unsynchronizedTodos(len=$countUnsynchronizedTodos)');
 
     if (countUnsynchronizedTodos == 0) {
       _logger.shout('nothing sync');
