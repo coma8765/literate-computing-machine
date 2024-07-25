@@ -69,7 +69,7 @@ dependencies:
   rxdart: ^0.28.0
   sentry: ^8.3.0
   sentry_flutter: ^8.3.0
-  sentry_logging: ^8.3.0
+  sentry_logging: ^8.5.0
   todos_api:
     path: packages/todos_api
   todos_repository:
