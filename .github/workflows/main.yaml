@@ -113,7 +113,7 @@ jobs:
         timeout-minutes: 2
       - name: Setup Gradle cache
         id: cache-gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: always() # or any other condition to invoke the save action
         env:
           cache-name: cache-gradle
